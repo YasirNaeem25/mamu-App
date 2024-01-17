@@ -25,6 +25,7 @@ function LoginAndAcountCreateHome({ navigation }) {
                             <View>
                                 <Text style={{ fontSize: 16, color: "#595959" }}>Disc Joskey</Text>
                                 <Text style={{ width: 186, fontSize: 11, color: '#595959' }}>
+                                    
                                     As a Disc Jockey you can create an events, make music list - some text
                                 </Text>
                             </View>
