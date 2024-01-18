@@ -9,9 +9,10 @@ const webHandler=new WebHandler()
 
 export default function OtpVerification({ route,navigation }) {
 
-    const { userId} = route.params;
+    const { userId,email} = route.params;
 
     const[otpcode,setOtpcode]=useState(null)
+    const[password,setpassword]=useState(null)
   
     return (
         <ScrollView>
@@ -21,11 +22,16 @@ export default function OtpVerification({ route,navigation }) {
 
                     <View style={{ paddingTop: 20, width: "100%" }}>
                         <Input value={otpcode} label='Enter OTP' onChange={(text) => { setOtpcode(text) }} />
-                   
+                       
                     </View>
+                  
+                 {email &&   <View style={{ paddingTop: 20, width: "100%" }}>
+                       <Input value={password} label='Password' onChange={(text) => { setpassword(text) }} />
+                    </View>}
                 </View>
                 <View style={{ paddingTop: 20 }}>
-                    <Button label='Submit' color='#23B7C5' onPress={() => {Verify() }} />
+                    <Button label='Submit' color='#23B7C5' onPress={() => {
+                       if(email){passwordVerify()}else{Verify()}  }} />
                 </View>
                 <View style={{ width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Text>Help Me ?</Text>
@@ -36,8 +42,7 @@ export default function OtpVerification({ route,navigation }) {
 
     function Verify(){
         if (!otpcode) {
-            // Show Snackbar if any field is null
-         
+            // Show Snackbar if any field is null   
         }
         else{
             let userData = {
@@ -46,6 +51,29 @@ export default function OtpVerification({ route,navigation }) {
             
             }
             webHandler.AccountVerifcation(userData, (resp) => {
+              
+                navigation.navigate('loginAcount')
+              
+            }, (error) => {
+               
+            })
+
+        }
+
+
+    }
+    function passwordVerify(){
+        if (!otpcode || !password) {
+            // Show Snackbar if any field is null   
+        }
+        else{
+            let userData = {
+                email:email ,
+                otpCode: otpcode, 
+                password:password       
+            
+            }
+            webHandler.passworOtpVerification(userData, (resp) => {
               
                 navigation.navigate('loginAcount')
               

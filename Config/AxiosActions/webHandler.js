@@ -53,10 +53,22 @@ export default class WebHandler {
             })
     }
     forgetPassword(data, onSuccess, onFailure) {   
+        
         let bodyParam ="&email=" + data.emailaddress 
             
             
         this.sendDataPostFormRequest(Urls.FORGET_PASSWORD, bodyParam,
+            (resp) => {
+                onSuccess(resp)
+            }, (error) => {
+                onFailure(error)
+            })
+    }
+    passworOtpVerification(data, onSuccess, onFailure) {   
+        let bodyParam ="&email=" + data.email +"&otp=" + data.otpCode +"&password=" + data.password 
+            
+            
+        this.sendDataPostFormRequest(Urls.VERIFY_FORGET_PASSWORD_OTP, bodyParam,
             (resp) => {
                 onSuccess(resp)
             }, (error) => {

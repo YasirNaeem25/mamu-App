@@ -42,7 +42,7 @@ export default function ForgetPassword({ navigation }) {
             }
             Handler.forgetPassword(userData, (resp) => {
               
-                navigation.navigate('OtpVerification')
+                navigation.navigate('OtpVerification',{email:email})
               
             }, (error) => {
                
