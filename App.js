@@ -7,8 +7,9 @@ export default function App() {
   return (
     <>
     <View style={{flex:1}}>
-    <FlashMessage position='bottom' />
+    
       <AppRouter />
+      <FlashMessage position='top' />
       </View>
     </>
   );
