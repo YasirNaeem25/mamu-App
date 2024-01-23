@@ -3,8 +3,7 @@ import { View, StyleSheet, ImageBackground, Image, Text, ScrollView } from 'reac
 import Button from '../../Component/AuthFeild/Button'
 import OutlineButton from '../../Component/AuthFeild/OutlineButton'
 import SocialButton from '../../Component/AuthFeild/SocialIconButton'
-import { useNavigation } from '@react-navigation/native'
-// import GoogleAuth from '../../Component/AuthFeild/GoogleAuth'
+
 import {
     GoogleSignin,
     GoogleSigninButton,

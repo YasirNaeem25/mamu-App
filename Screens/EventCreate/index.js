@@ -3,23 +3,32 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import Header from '../../Component/Header'
 import Input from '../../Component/AuthFeild/Input'
 import Button from '../../Component/AuthFeild/Button'
+import MyDatePicker from './MyDatePicker'
 
 
 function EventCreate({ navigation, route }) {
     const receivedData = route.params;
+    const [eventname,seteventname]=useState(null)
+    const [startDate,setstartDate]=useState(null)
+    const [endDate,setendDate]=useState(null)
     return (
+
         <ScrollView>
-            <View style={{ height: 665, backgroundColor: '#F5F5F5' }}>
-                <Header label='Create New Event' />
+            <Header label='Create New Event' />
+            <View style={{ backgroundColor: '#F5F5F5' }}>
+
                 <ScrollView>
                     <View style={{ padding: 24, }}>
                         <Text style={{ color: "#333", fontSize: 20, }}>Create New Event</Text>
                         <View style={{ paddingTop: 20 }}>
-                            <Input label='Event Name' validationtext='Choose cool name for your event!' textFocuscolor='#F5F5F5' />
+                            {/* <Input label='Event Name' validationtext='Choose cool name for your event!' textFocuscolor='#F5F5F5' /> */}
+                            <Input value={eventname} label='Event Name' onChange={(text) => { seteventname(text) }}textFocuscolor='#F5F5F5' validationtext='Choose cool name for your event!' />
+
                         </View>
-                        <View style={{ paddingTop: 20 }}>
-                            <Input label='Start Date and Time' validationtext='Set when event will start' textFocuscolor='#F5F5F5' />
-                        </View>
+                        <TouchableOpacity onPress={()=>{console.log("runnn")}} style={{ paddingTop: 20 }}>
+                            {/* <MyDatePicker/> */}
+                            <Input  label='Start Date and Time' validationtext='Set when event will start' textFocuscolor='#F5F5F5' />
+                        </TouchableOpacity>
                         <View style={{ paddingTop: 20 }}>
                             <Input label='End Date and Time' validationtext='Set when event will start' textFocuscolor='#F5F5F5' />
                             <View><Text style={{ fontSize: 13, color: "#7398FA", paddingTop: 7 }}> + End Date and Time</Text></View>
