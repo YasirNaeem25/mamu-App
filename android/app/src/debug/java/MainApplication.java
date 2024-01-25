@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public class MainApplication {
+import android.app.Application;
+
+public class MainApplication extends Application {
 }

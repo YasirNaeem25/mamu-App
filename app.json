@@ -16,19 +16,33 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mamu"
+    
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "bundleIdentifier": "com.mamu",
+      "useFrameworks": "static"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "./google-services.json",
       "package": "com.mamu"
+      
+      
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+     
+
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
     ]
+       
+    
+   
+    
   }
 }

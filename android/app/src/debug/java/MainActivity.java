@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public class MainActivity {
+import android.app.Activity;
+
+public class MainActivity extends Activity {
 }
