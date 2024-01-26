@@ -19,7 +19,7 @@ const Input = (props) => {
                     paddingBottom: 3,
                     marginLeft: 20,
                     paddingLeft: 5,
-                    color: "#23b7c5",
+                    color:props.value?'grey': "#23b7c5",
                     zIndex: 1
                 }}>{props.label}</Text>
             ) : null}

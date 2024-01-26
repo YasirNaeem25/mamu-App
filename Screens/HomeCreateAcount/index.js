@@ -3,14 +3,14 @@ import { View, StyleSheet, ImageBackground, Image, Text, ScrollView } from 'reac
 import Button from '../../Component/AuthFeild/Button'
 import OutlineButton from '../../Component/AuthFeild/OutlineButton'
 import SocialButton from '../../Component/AuthFeild/SocialIconButton'
-import { useNavigation } from '@react-navigation/native'
-// import GoogleAuth from '../../Component/AuthFeild/GoogleAuth'
+
 import {
     GoogleSignin,
     GoogleSigninButton,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
-
+import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import { Profile } from "react-native-fbsdk-next";
 GoogleSignin.configure({
     // scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
     webClientId: '40923534712-nsgs2aud99q4115v2m9ofocvlhb7hqb3.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
@@ -62,7 +62,27 @@ function CreateAcountHOme({ navigation }) {
 
                         </View>
                         <View style={styles.socialButton}>
-                            <SocialButton onPress={() => { }} label='Continue with Facebook' color='black' SocialIcon='Facebook' />
+                            {/* <LoginButton
+                                onLoginFinished={
+                                    (error, result) => {
+                                        if (error) {
+                                            console.log("login has error: " + result.error);
+                                        } else if (result.isCancelled) {
+                                            console.log("login is cancelled.");
+                                        } else {
+                                            AccessToken.getCurrentAccessToken().then(
+                                                (data) => {
+                                                    console.log(data.accessToken.toString())
+                                                }
+                                            )
+                                        }
+                                    }
+                                }
+                                onLogoutFinished={() => console.log("logout.")} /> */}
+                            <SocialButton onPress={() => {
+                                handleFacebookLogin()
+
+                            }} label='Continue with Facebook' color='black' SocialIcon='Facebook' />
                             <SocialButton onPress={() => { signIn() }} label='Continue with Google' color='black' SocialIcon='Google' />
                             {/* <GoogleAuth /> */}
                             <SocialButton onPress={() => { }} label='Continue with apple' color='black' SocialIcon='blackApple' />
@@ -78,6 +98,31 @@ function CreateAcountHOme({ navigation }) {
         </ScrollView>
     )
 
+    function handleFacebookLogin() {
+        LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+            function (result) {
+                if (result.isCancelled) {
+                    console.log('Login cancelled')
+                } else {
+                    const currentProfile = Profile.getCurrentProfile().then(
+                        function (currentProfile) {
+                            if (currentProfile) {
+                                console.log("The current logged user is: " +
+                                    currentProfile.name
+                                    + ". His profile id is: " +
+                                    currentProfile.userID
+                                );
+                            }
+                        })
+                    console.log('Login success with permissions: ' + currentProfile)
+                    navigation.navigate('HomeScreen')
+                }
+            },
+            function (error) {
+                console.log('Login fail with error: ' + error)
+            }
+        )
+    }
 
     async function signIn() {
         try {

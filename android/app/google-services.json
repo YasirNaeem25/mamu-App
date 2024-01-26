@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "40923534712",
+    "project_id": "mamu-app",
+    "storage_bucket": "mamu-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40923534712:android:bc23fb29b73ba72f8d648d",
+        "android_client_info": {
+          "package_name": "com.mamu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40923534712-iombnmalnrtq3p2kslnlqn3buc6971u0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mamu",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "40923534712-nsgs2aud99q4115v2m9ofocvlhb7hqb3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATi_lGLHJT4EUQH9X43vv2fFrF9Rdcwzg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40923534712-nsgs2aud99q4115v2m9ofocvlhb7hqb3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">mamu</string>
     <string name="server_client_id">40923534712-iombnmalnrtq3p2kslnlqn3buc6971u0.apps.googleusercontent.com</string>
+
+<string name="facebook_app_id">912249050554413</string>
+<string name="fb_login_protocol_scheme">fb1234</string>
+<string name="facebook_client_token">b17c903504d334852b0b167b07e9e4ce</string>
+
+
+
+
 </resources>
