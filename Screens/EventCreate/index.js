@@ -6,6 +6,7 @@ import Button from '../../Component/AuthFeild/Button'
 
 
 function EventCreate({ navigation, route }) {
+    const [eventName, seteventName] = useState(null);
     const receivedData = route.params;
     return (
         <ScrollView>
@@ -15,7 +16,10 @@ function EventCreate({ navigation, route }) {
                     <View style={{ padding: 24, }}>
                         <Text style={{ color: "#333", fontSize: 20, }}>Create New Event</Text>
                         <View style={{ paddingTop: 20 }}>
-                            <Input label='Event Name' validationtext='Choose cool name for your event!' textFocuscolor='#F5F5F5' />
+                            {/* <Input label='Event Name' validationtext='Choose cool name for your event!' textFocuscolor='#F5F5F5' /> */}
+                      
+                            <Input value={eventName}  validationtext='Choose cool name for your event!' label='Event Name' onChange={(text) => { seteventName(text) }} />
+                   
                         </View>
                         <View style={{ paddingTop: 20 }}>
                             <Input label='Start Date and Time' validationtext='Set when event will start' textFocuscolor='#F5F5F5' />

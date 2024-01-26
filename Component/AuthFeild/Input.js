@@ -9,7 +9,7 @@ const Input = (props) => {
 
     return (
         <>
-            {isFocused ? (
+            {isFocused || props.value? (
                 <Text style={{
                     position: 'absolute',
                     backgroundColor: props.textFocuscolor ? props.textFocuscolor : 'white',

@@ -5,7 +5,8 @@ export default{
     USER_LOGIN:SERVER+"user/login",
     OTP_VERIFICATION:SERVER+"user/verify-otp",
     FORGET_PASSWORD:SERVER+"user/forgot-password",
-    VERIFY_FORGET_PASSWORD_OTP:SERVER+"user/verify-forgot-password-otp"
+    VERIFY_FORGET_PASSWORD_OTP:SERVER+"user/verify-forgot-password-otp",
+    GET_USER_INFO:SERVER+"user"
 
     
 }

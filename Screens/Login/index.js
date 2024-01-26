@@ -45,7 +45,7 @@ function Login({ navigation }) {
     )
 
     function userLogin(){
-
+        navigation.navigate('HomeScreen')
         console.log(userEmail,password)
         if (!userEmail || !password) {
             // Show Snackbar if any field is null
