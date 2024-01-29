@@ -21,6 +21,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
+
+	
+
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -30,7 +33,19 @@
 				<string>com.googleusercontent.apps.40923534712-is15f3mnn148cmgvmrbjqdkuflsnij52</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb912249050554413</string>
+			</array>
+		</dict>
 	</array>
+	<key>FacebookAppID</key>
+	<string>912249050554413</string>
+	<key>FacebookClientToken</key>
+    <string>b17c903504d334852b0b167b07e9e4ce</string> 
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
