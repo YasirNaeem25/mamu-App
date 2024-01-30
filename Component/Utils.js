@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-// import Snackbar from 'react-native-snackbar';
-
+import { showMessage } from 'react-native-flash-message';
 export default class Utils extends React.Component {
 
-    showSnackbar(message) {
-        // Snackbar.show({
-        //     title: message,
-        //     duration:Snackbar.LENGTH_SHORT,
-        //     backgroundColor: '#000',
-        //     color:'white',
-        //     action: {
-        //         title: 'Ok',
-        //         color: 'white',
-        //     },
-        // });
+    showSnackbar(title,message,type) {
+        showMessage({
+            message:title,
+            description:message,
+            type:type,
+        });
     }
 }

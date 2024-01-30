@@ -1,14 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, View, Text, Image, ImageBackground, TouchableOpacity } from 'react-native'
 import Button from '../../Component/AuthFeild/Button'
 import Header from '../../Component/Header'
 import Input from '../../Component/AuthFeild/Input'
 import SearchInput from '../../Component/AuthFeild/SearchInput'
-
+import WebHandler from '../../Config/AxiosActions/webHandler'
+const webHandler = new WebHandler()
 function AddTopPlayList({ navigation }) {
     const [openSearch, setOpenSearch] = useState(false)
     const [Selected, setSelected] = useState(false)
     const [defaultrender, setDefaultrender] = useState(true)
+    const [musicList, setmusicList] = useState([])
+
+    useEffect(()=>{
+        webHandler.getSongsList((resp) => {
+            if (resp) {
+              console.log("response ======",resp.songs)
+              setmusicList(resp.songs)
+            }
+        }, (error) => {
+
+        })
+
+    },[])
 
     const MusicData = [
         {
@@ -100,7 +114,7 @@ function AddTopPlayList({ navigation }) {
                                 < View
                                     key={i}
                                     style={{
-                                        width: 328,
+                                        // width: 328,
                                         height: 80,
                                         backgroundColor: 'white',
                                         marginTop: 15,

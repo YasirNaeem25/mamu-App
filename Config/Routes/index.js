@@ -76,12 +76,15 @@ function AppRouter() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+            <Stack.Screen options={{
+                    headerShown: false
+                }} name="addEvent" component={AddEvent} />
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="login" component={LoginHome} />
-                <Stack.Screen options={{
+                {/* <Stack.Screen options={{
                     headerShown: false
-                }} name="addEvent" component={AddEvent} />
+                }} name="addEvent" component={AddEvent} /> */}
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="playlist" component={AddTopPlayList} />

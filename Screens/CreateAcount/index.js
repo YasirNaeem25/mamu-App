@@ -4,23 +4,16 @@ import Header from '../../Component/Header'
 import Input from '../../Component/AuthFeild/Input'
 import Button from '../../Component/AuthFeild/Button'
 import WebHandler from '../../Config/AxiosActions/webHandler'
-import { showMessage } from 'react-native-flash-message'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Utils from '../../Component/Utils'
 
+const myUtils=new Utils()
 const webHandler = new WebHandler()
-
-
-
-
 function CreateAcount({ route, navigation }) {
-
     const { userType } = route.params;
-
     const [userEmail, setuserEmail] = useState(null)
     const [userName, setuserName] = useState(null)
     const [password, setpassword] = useState(null)
-
-    console.log("===>>>>", userType)
     return (
         <SafeAreaView>
             <ScrollView>
@@ -62,48 +55,28 @@ function CreateAcount({ route, navigation }) {
             </ScrollView>
         </SafeAreaView>
     )
-
     function RegisterUser() {
-        console.log("====>>Data>>", userEmail, userName, userType, password)
-
-
         if (!userEmail || !userName || !password) {
-            // Show Snackbar if any field is null
-
-            showMessage({
-                message: "Hello World",
-                description: "This is our second message",
-                type: "success",
-            });
-
+            myUtils.showSnackbar("Error","Please fill complete data","none")
         }
         else {
             let userData = {
                 userName: userName,
-
                 email: userEmail,
                 password: password,
                 type: userType,
 
             }
             webHandler.registerUserAccount(userData, (resp) => {
-
-                console.log(resp.user_data, resp.user_data._id)
                 if (resp) {
-
                     navigation.navigate('OtpVerification', {
                         userId: resp.user_data._id,email:null
                     })
                 }
-
-
             }, (error) => {
 
             })
-
         }
-
-
     }
 }
 
