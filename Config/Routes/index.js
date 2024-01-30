@@ -32,6 +32,7 @@ import EditDescriptionAndImage from '../../Screens/EditImageAndDescription';
 import AddTopPlayList from '../../Screens/AddTopPlayList';
 import CreatedEvent from '../../Screens/CreatedEvent';
 import OtpVerification from '../../Screens/forgotpassword/otpVerification';
+import EventData from '../../Screens/Home/Events/EventData';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -76,15 +77,18 @@ function AppRouter() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-            <Stack.Screen options={{
+            {/* <Stack.Screen options={{
                     headerShown: false
-                }} name="addEvent" component={AddEvent} />
-                <Stack.Screen options={{
-                    headerShown: false
-                }} name="login" component={LoginHome} />
+                }} name="EventData" component={EventData} /> */}
                 {/* <Stack.Screen options={{
                     headerShown: false
                 }} name="addEvent" component={AddEvent} /> */}
+                <Stack.Screen options={{
+                    headerShown: false
+                }} name="login" component={LoginHome} />
+                <Stack.Screen options={{
+                    headerShown: false
+                }} name="addEvent" component={AddEvent} />
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="playlist" component={AddTopPlayList} />
@@ -136,7 +140,7 @@ function AppRouter() {
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="forgetPassword" component={ForgetPassword} />
-                  <Stack.Screen options={{
+                <Stack.Screen options={{
                     headerShown: false
                 }} name="OtpVerification" component={OtpVerification} />
                 <Stack.Screen options={{
@@ -149,6 +153,9 @@ function AppRouter() {
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="EditDescription" component={EditDescriptionAndImage} />
+                {/* <Stack.Screen options={{
+                    headerShown: false
+                }} name="Share Your Event" component={EventData} /> */}
             </Stack.Navigator>
         </NavigationContainer>
     );

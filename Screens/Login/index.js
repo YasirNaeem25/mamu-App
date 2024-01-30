@@ -6,6 +6,11 @@ import { TouchableOpacity } from 'react-native'
 import Button from '../../Component/AuthFeild/Button'
 import WebHandler from '../../Config/AxiosActions/webHandler'
 import QRCode from 'react-native-qrcode-svg';
+import Prefmanager from '../../Config/AxiosActions/prefManager'
+import Utils from '../../Component/Utils'
+
+const myUtils=new Utils()
+const pref=new Prefmanager()
 const webHandler = new WebHandler()
 function Login({ navigation }) {
 
@@ -65,14 +70,21 @@ function Login({ navigation }) {
 
             }
             webHandler.UserAccountLogin(userData, (resp) => {
+
+                console.log(resp.message)
                 navigation.navigate('HomeScreen')
-                console.log(resp)
+               
                 // this.props.navigation.navigate('Verification', {
                 //     _trainerId: resp.trainer_id,
                 //     _verificationType: "NEW_ACCOUNT"
                 // })
             }, (error) => {
-
+                if(error=='Request failed with status code 400')
+                {
+                    myUtils.showSnackbar("Error","User Not Verified",'danger')
+                    
+                }
+                console.log(error)
             })
 
         }

@@ -5,10 +5,11 @@ import Header from '../../Component/Header'
 import Input from '../../Component/AuthFeild/Input'
 import ImagePicker from 'react-native-image-crop-picker';
 
-function EditDescriptionAndImage({ navigation }) {
+function EditDescriptionAndImage({ navigation, route }) {
 
-    const [image,setImage]=useState(null)
-    const [desc,setDesc]=useState(null)
+    const { startdate, enddate, eventName } = route.params;
+    const [image, setImage] = useState(null)
+    const [desc, setDesc] = useState(null)
     let imagee = { "uri": image }
     return (
         <ScrollView>
@@ -28,21 +29,21 @@ function EditDescriptionAndImage({ navigation }) {
                             backgroundColor: "white",
                             justifyContent: 'center', alignItems: 'center'
                         }}
-                        onPress={()=>handleImagePicker()}
+                            onPress={() => handleImagePicker()}
                         >
-                            <Image  source={require('../../Assests/Edit.png')} />
+                            <Image source={require('../../Assests/Edit.png')} />
                         </TouchableOpacity>
 
                     </View>
-                    <Image style={{ borderRadius:20,width: 312, padding: 15, height: 312, marginTop: 10, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }} source={ image?imagee:require('../../Assests/ProfileBackgroundimage.png')}>
-                      
+                    <Image style={{ borderRadius: 20, width: 312, padding: 15, height: 312, marginTop: 10, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }} source={image ? imagee : require('../../Assests/ProfileBackgroundimage.png')}>
+
                     </Image>
                     <View style={{ paddingTop: 24 }}>
                         <Text style={{ fontSize: 28, color: 'black' }}>Event Description</Text>
                         <Text style={{ fontSize: 12, color: '#666666', paddingTop: 5 }}>Provide more information about your event so that guests know what to expect.</Text>
                         <View style={{ paddingTop: 24 }}>
                             <Input value={desc} label='Add description' onChange={(text) => { setDesc(text) }} textFocuscolor='#F5F5F5' validationtext='' />
-                       
+
                         </View>
                     </View>
                 </View>
@@ -58,20 +59,26 @@ function EditDescriptionAndImage({ navigation }) {
                     <View style={{ width: 75, height: 2, backgroundColor: "#CCCCCC" }}></View>
                 </View>
                 <View style={{ paddingTop: 24 }}>
-                    <Button color='#26C5D5' label='next' onPress={() => { navigation.navigate('playlist',
-                    {
-                        eventimage:imagee,
-                        eventDesc:desc,  
+                    <Button color='#26C5D5' label='next' onPress={() => {
+                        navigation.navigate('playlist',
+                            {
 
-                    }
-                    
-                    ) }} />
+                                startdate: startdate,
+                                enddate: enddate,
+                                eventName: eventName,
+                                eventimage: imagee,
+                                eventDesc: desc,
+
+                            }
+
+                        )
+                    }} />
                 </View>
             </View>
         </ScrollView >
     )
     async function hasAndroidPermission() {
-       
+
         const permission = Platform.Version >= 33 ? PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES : PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
 
         const hasPermission = await PermissionsAndroid.check(permission);
@@ -91,12 +98,12 @@ function EditDescriptionAndImage({ navigation }) {
             'Event Cover', 'Please select option',
             [
                 {
-                    text:'Cancel',
+                    text: 'Cancel',
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },
                 {
-                    text:'Open Camera', onPress: () => {
+                    text: 'Open Camera', onPress: () => {
                         ImagePicker.openCamera({
                             cropping: true,
                             width: 312,
@@ -104,13 +111,13 @@ function EditDescriptionAndImage({ navigation }) {
                             includeExif: true,
                         }).then(image => {
                             let img = { uri: image.path, width: image.width, height: image.height }
-                            console.log(img,img.uri)
+                            console.log(img, img.uri)
                             setImage(img.uri)
                         }).catch(e => alert(e.message));
                     }
                 },
                 {
-                    text:'Open Gallery', onPress: () => {
+                    text: 'Open Gallery', onPress: () => {
                         ImagePicker.openPicker({
                             width: 312,
                             height: 312,

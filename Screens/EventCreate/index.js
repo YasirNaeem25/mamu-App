@@ -90,8 +90,8 @@ function EventCreate({ navigation, route }) {
                 <View style={{ paddingTop: 24 }}>
                     <Button color='#26C5D5' label='next' onPress={() => 
                     { navigation.navigate('EditDescription',{
-                        startdate:dateFormat(startDate).formattedDate,
-                        enddate:dateFormat(endDate).formattedDate,
+                        startdate:dateFormat(startDate),
+                        enddate:dateFormat(endDate),
                         eventName:eventname   
 
                     }) }} />

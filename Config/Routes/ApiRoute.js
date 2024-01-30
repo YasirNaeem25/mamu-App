@@ -8,6 +8,9 @@ export default{
     VERIFY_FORGET_PASSWORD_OTP:SERVER+"user/verify-forgot-password-otp",
     GET_USER_INFO:SERVER+"user",
 
+    //Event API
+    ADD_EVENT:SERVER+"addEvent",
+
 
     //GET API
     GET_SOGNS_LIST:SERVER+"get/songs"

@@ -5,6 +5,23 @@ import OutlineButton from '../../Component/AuthFeild/OutlineButton'
 import SocialButton from '../../Component/AuthFeild/SocialIconButton'
 import { useNavigation } from '@react-navigation/native'
 
+import {
+    GoogleSignin,
+    GoogleSigninButton,
+    statusCodes,
+} from '@react-native-google-signin/google-signin';
+import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import { Profile } from "react-native-fbsdk-next";
+import WebHandler from '../../Config/AxiosActions/webHandler'
+
+GoogleSignin.configure({
+    webClientId: '40923534712-nsgs2aud99q4115v2m9ofocvlhb7hqb3.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+
+    iosClientId: '40923534712-is15f3mnn148cmgvmrbjqdkuflsnij52.apps.googleusercontent.com', // [iOS] if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
+});
+
+const webHandler = new WebHandler()
 function AcountCreateOPtion({ navigation }) {
     // let navigate = useNavigation()
     return (
@@ -43,8 +60,8 @@ function AcountCreateOPtion({ navigation }) {
 
                         </View>
                         <View style={styles.socialButton}>
-                            <SocialButton onPress={() => { }} label='Continue with Facebook' SocialIcon='Facebook' />
-                            <SocialButton onPress={() => { }} label='Continue with Google' SocialIcon='Google' />
+                            <SocialButton onPress={() => { handleFacebookLogin() }} label='Continue with Facebook' SocialIcon='Facebook' />
+                            <SocialButton onPress={() => { signIn() }} label='Continue with Google' SocialIcon='Google' />
                             <SocialButton onPress={() => { }} label='Continue with apple' SocialIcon='Apple' />
 
 
@@ -54,10 +71,85 @@ function AcountCreateOPtion({ navigation }) {
                 <View style={styles.AndHeplmeSection}>
                     <Text style={{ fontSize: 18, color: "white" }}>help me ?</Text>
                 </View>
-                
+
             </View >
         </ScrollView>
     )
+
+    function handleFacebookLogin() {
+        LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+            function (result) {
+                if (result.isCancelled) {
+                    console.log('Login cancelled')
+                } else {
+                    const currentProfile = Profile.getCurrentProfile().then(
+                        function (currentProfile) {
+                            if (currentProfile) {
+                                console.log("The current logged user is: " +
+                                   JSON.stringify( currentProfile))
+                                  
+                                   let data={
+                                    image:currentProfile.imageURL,
+                                    name:currentProfile.name,
+                                    facebookId:currentProfile.userID
+                                   }
+                                    webHandler.UserAccountLogin(data,'facebook', (resp) => {
+
+                                        console.log(resp.message)
+                                        navigation.navigate('HomeScreen')
+                                    }, (error) => {
+                                        console.log(error)
+                                    })
+                                
+                            }
+                        })
+                }
+            },
+            function (error) {
+                console.log('Login fail with error: ' + error)
+            }
+        )
+    }
+
+    async function signIn() {
+        try {
+            await GoogleSignin.hasPlayServices();
+            // await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+
+            const userInfo = await GoogleSignin.signIn();
+            webHandler.UserAccountLogin(userInfo,'google', (resp) => {
+
+                console.log(resp.message)
+                navigation.navigate('HomeScreen')
+
+                // this.props.navigation.navigate('Verification', {
+                //     _trainerId: resp.trainer_id,
+                //     _verificationType: "NEW_ACCOUNT"
+                // })
+            }, (error) => {
+                if (error == 'Request failed with status code 400') {
+                    // myUtils.showSnackbar("Error", "User Not Verified", 'danger')
+
+                }
+                console.log(error)
+            })
+           
+        } catch (error) {
+            if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                // user cancelled the login flow
+                console.log(" user cancelled the login flow")
+            } else if (error.code === statusCodes.IN_PROGRESS) {
+                // operation (e.g. sign in) is in progress already
+                console.log("operation (e.g. sign in) is in progress already")
+            } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                // play services not available or outdated
+                console.log("play services not available or outdated")
+            } else {
+                // some other error happened
+                // console.log("some other error happened")
+            }
+        }
+    };
 }
 const styles = StyleSheet.create({
     backgrounBox: {
