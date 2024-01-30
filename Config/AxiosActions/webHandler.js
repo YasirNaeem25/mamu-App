@@ -68,18 +68,8 @@ export default class WebHandler {
             })
     }
     createEvent(data, onSuccess, onFailure) {
-        console.log("data ====",data)
-        // let bodyParam = "&email=" + data.email + "&password=" + data.password
         const formData=new FormData()
-        // let bodyParam = {
-        //     "eventName": data.eventName,
-        //     "start_date_time": data.start_date_time,
-        //     "end_date_time": data.end_date_time,
-        //     "descriptions": data.descriptions,
-        //     "songsList": data.songsList,
-        //     "eventOrganizerId": data.eventOrganizerId,
-        //     "file": data.file
-        // }
+       
         formData.append("eventName", data.eventName)
         formData.append("start_date_time", data.start_date_time)
         formData.append("end_date_time", data.end_date_time)
