@@ -67,24 +67,134 @@ export default class WebHandler {
                 onFailure(error)
             })
     }
-    createEvent(data, onSuccess, onFailure) {
-        const formData=new FormData()
+    // createEvent(data, onSuccess, onFailure) {
+    //     const formData=new FormData()
        
-        formData.append("eventName", data.eventName)
-        formData.append("start_date_time", data.start_date_time)
-        formData.append("end_date_time", data.end_date_time)
-        formData.append("descriptions", data.descriptions)
-        formData.append("songsList", data.songsList)
-        formData.append("eventOrganizerId", data.eventOrganizerId)
-        formData.append("image", { uri: data.file.uri, name: 'image.jpg', type: 'multipart/form-data' })
-        this.sendMediaPostFormRequest(Urls.ADD_EVENT, formData,
-            (resp) => {
+    //     formData.append("eventName", data.eventName)
+    //     formData.append("start_date_time", data.start_date_time)
+    //     formData.append("end_date_time", data.end_date_time)
+    //     formData.append("descriptions", data.descriptions)
+    //     formData.append("songsList", data.songsList)
+    //     formData.append("eventOrganizerId", data.eventOrganizerId)
+    //     formData.append("image", { uri: data.file.uri, name: 'image.jpg', type: 'multipart/form-data' })
+    //     this.sendMediaPostFormRequest(Urls.ADD_EVENT, formData,
+    //         (resp) => {
 
-                onSuccess(resp)
-            }, (error) => {
-                onFailure(error)
-            })
+    //             onSuccess(resp)
+    //         }, (error) => {
+    //             onFailure(error)
+    //         })
+    // }
+    formDataToJson = (formData) => {
+        const jsonObject = {};
+    console.log("formData ===",formData)
+        for (const [key, value] of formData.entries()) {
+            jsonObject[key] = value;
+        }
+    
+        return jsonObject;
+    };
+    convertFormDataToJson = (formData) => {
+
+        console.log("FUnction ----",formData._parts)
+
+        const jsonObject = {};
+      
+        formData._parts.forEach((value, key) => {
+          // Check if the value is a File object (for handling file input)
+          if (value instanceof File) {
+            jsonObject[key] = {
+              uri: value.uri,
+              name: value.name,
+              type: value.type,
+            };
+          } else {
+            // For non-file fields, simply use the value
+            jsonObject[key] = value;
+          }
+        });
+      
+        return jsonObject;
+      };
+    createEvent(data, onSuccess, onFailure) {
+        const formData = new FormData();
+    
+        formData.append("eventName", data.eventName);
+        formData.append("start_date_time", data.start_date_time);
+        formData.append("end_date_time", data.end_date_time);
+        formData.append("descriptions", data.descriptions);
+        formData.append("songsList", data.songsList);
+        formData.append("eventOrganizerId", data.eventOrganizerId);
+        
+       
+        if (data.file && data.file.uri) {
+            formData.append("image", { uri: data.file.uri, name: 'image.jpg', type: 'image/jpeg' });
+        }
+     
+        console.log("STart =====")
+        //   const jsonData = this.convertFormDataToJson(formData);
+
+        //   console.log("Ending =====",jsonData)
+        // console.log("Form data ====",this.formDataToJson(formData))
+        this.sendMediaPostFormRequest(
+            Urls.ADD_EVENT,
+            formData,
+            (resp) => {
+                onSuccess(resp);
+            },
+            (error) => {
+                onFailure(error);
+            }
+        );
     }
+    
+    sendMediaPostFormRequest(url, formData, onResponse, onError) {
+        // Add a boundary to the Content-Type header
+        const headers = new Headers({
+            'Content-Type': 'multipart/form-data',
+        });
+    
+        console.log("=====================WEB REQUEST========================");
+        console.log("URL==> " + url);
+        console.log("PARAMS==> " + JSON.stringify(formData));
+    
+        fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: formData,
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            console.log("RESPONSE==> " + JSON.stringify(responseJson));
+            if (responseJson.status === true) {
+                onResponse(responseJson);
+            } else {
+                onError(responseJson.message);
+            }
+        })
+        .catch((error) => {
+            console.error("ERROR==> " + error.message);
+            onError('Something went wrong while connecting to the server.');
+    
+            // Additional debug logging for the error scenario
+            console.log("Retrying with text response...");
+    
+            fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: formData,
+            })
+            .then((response) => response.text())
+            .then((responseText) => {
+                console.log("RESPONSE==> " + responseText);
+            })
+            .catch((retryError) => {
+                console.error("Retry Error==> " + retryError.message);
+                // Handle retry error as needed
+            });
+        });
+    }
+    
     AccountVerifcation(data, onSuccess, onFailure) {
         let bodyParam = "&userId=" + data.userId + "&otp=" + data.otpCode
 
@@ -330,51 +440,51 @@ export default class WebHandler {
         })
     }
 
-    sendMediaPostFormRequest(url, formData, onResponse, onError) {
+    // sendMediaPostFormRequest(url, formData, onResponse, onError) {
   
-        // var key = CryptoJS.HmacSHA1(data, API_KEY)
+    //     // var key = CryptoJS.HmacSHA1(data, API_KEY)
 
-        console.log("=====================WEB REQUEST========================")
-        console.log("URL==> " + url)
-        console.log("PARAMS==> " + JSON.stringify(formData))
+    //     console.log("=====================WEB REQUEST========================")
+    //     console.log("URL==> " + url)
+    //     console.log("PARAMS==> " + JSON.stringify(formData))
 
-        fetch(url, {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'multipart/form-data',
+    //     fetch(url, {
+    //         method: 'POST',
+    //         headers: new Headers({
+    //             'Content-Type': 'multipart/form-data',
               
-            }),
-            body: formData
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log("RESPONSE==> " + JSON.stringify(responseJson))
-                if (responseJson.status == true) {
-                    onResponse(responseJson)
-                } else {
-                    onError(responseJson.message)
-                }
-            }).catch((error) => {
-                onError(error.message)
-                // onError('Something went wrong while connecting to server.')
+    //         }),
+    //         body: formData
+    //     })
+    //         .then((response) => response.json())
+    //         .then((responseJson) => {
+    //             console.log("RESPONSE==> " + JSON.stringify(responseJson))
+    //             if (responseJson.status == true) {
+    //                 onResponse(responseJson)
+    //             } else {
+    //                 onError(responseJson.message)
+    //             }
+    //         }).catch((error) => {
+    //             onError(error.message)
+    //             // onError('Something went wrong while connecting to server.')
 
-                fetch(url, {
-                    method: 'POST',
-                    headers: new Headers({
-                        'Content-Type': 'multipart/form-data',
-                        // 'dateTime': dt,
-                        // 'url': url,
-                        // 'key': key
-                    }),
-                    body: formData
-                })
-                    .then((response) => response.text())
-                    .then((responseText) => {
-                        console.log("RESPONSE==> " + responseText)
-                    }).catch((error) => {
-                        // onError('Something went wrong while connecting to server.')
-                    });
+    //             fetch(url, {
+    //                 method: 'POST',
+    //                 headers: new Headers({
+    //                     'Content-Type': 'multipart/form-data',
+    //                     // 'dateTime': dt,
+    //                     // 'url': url,
+    //                     // 'key': key
+    //                 }),
+    //                 body: formData
+    //             })
+    //                 .then((response) => response.text())
+    //                 .then((responseText) => {
+    //                     console.log("RESPONSE==> " + responseText)
+    //                 }).catch((error) => {
+    //                     // onError('Something went wrong while connecting to server.')
+    //                 });
 
-            });
-    }
+    //         });
+    // }
 }
