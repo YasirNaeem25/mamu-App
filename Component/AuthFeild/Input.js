@@ -9,7 +9,7 @@ const Input = (props) => {
 
     return (
         <>
-            {isFocused || props.value? (
+            {isFocused || props.value ? (
                 <Text style={{
                     position: 'absolute',
                     backgroundColor: props.textFocuscolor ? props.textFocuscolor : 'white',
@@ -19,21 +19,33 @@ const Input = (props) => {
                     paddingBottom: 3,
                     marginLeft: 20,
                     paddingLeft: 5,
-                    color:props.value?'grey': "#23b7c5",
+                    color: props.value ? 'grey' : "#23b7c5",
                     zIndex: 1
                 }}>{props.label}</Text>
             ) : null}
             <View style={isFocused ? styles.InputMain : styles.unFocus}>
-                <View>
-                    <TextInput
-                        value={props.value}
-                        onFocus={handleFocus}
-                        onBlur={handleBlur}
-                        onChangeText={props.onChange}
-                        placeholder={!isFocused ? props.label : null}
-                        style={styles.input}
-                    />
-                </View>
+                {props.editable != false ?
+                    <View>
+                        <TextInput
+                            editable={props.editable}
+                            value={props.value}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                            onChangeText={props.onChange}
+                            placeholder={!isFocused ? props.label : null}
+                            style={styles.input}
+                        />
+                    </View>
+                    :
+                    <View>
+                        <Text
+
+                            style={styles.input}
+                        >
+                            {props.value}
+                        </Text>
+                    </View>
+                }
             </View>
             {props.validationtext ? (
                 <Text style={{ fontSize: 12, paddingLeft: 12, paddingTop: 5, color: "#666666" }}>{props.validationtext}</Text>

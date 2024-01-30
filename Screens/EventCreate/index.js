@@ -9,31 +9,52 @@ import MyDatePicker from './MyDatePicker'
 function EventCreate({ navigation, route }) {
     const [eventName, seteventName] = useState(null);
     const receivedData = route.params;
-    const [eventname,seteventname]=useState(null)
-    const [startDate,setstartDate]=useState(null)
-    const [endDate,setendDate]=useState(null)
+    const [eventname, seteventname] = useState(null)
+    const [startDate, setstartDate] = useState(null)
+    const [endDate, setendDate] = useState(null)
+    const [showDatePicker, setshowDatePicker] = useState(false)
+    const [showEnddate, setshowEnddate] = useState(false)
+    const [showEnddatePicker, setshowEnddatePicker] = useState(false)
+
+
+    const strtDate=dateFormat(startDate).formattedDateTime
+    const endingDate=dateFormat(endDate).formattedDateTime
     return (
 
         <ScrollView>
             <Header label='Create New Event' />
             <View style={{ backgroundColor: '#F5F5F5' }}>
+                <MyDatePicker
+                    showModal={showDatePicker}
+                    onSelectDate={(date) => {
+                        setstartDate(date), setshowDatePicker(false)
+                    }}
+                    onHandleCancel={() => { setshowDatePicker(false) }}
+                />
 
+                <MyDatePicker
+                    showModal={showEnddatePicker}
+                    onSelectDate={(date) => { setendDate(date), setshowEnddatePicker(false) }}
+                    onHandleCancel={() => { setshowEnddatePicker(false) }}
+                />
                 <ScrollView>
                     <View style={{ padding: 24, }}>
                         <Text style={{ color: "#333", fontSize: 20, }}>Create New Event</Text>
                         <View style={{ paddingTop: 20 }}>
                             {/* <Input label='Event Name' validationtext='Choose cool name for your event!' textFocuscolor='#F5F5F5' /> */}
-                            <Input value={eventname} label='Event Name' onChange={(text) => { seteventname(text) }}textFocuscolor='#F5F5F5' validationtext='Choose cool name for your event!' />
-
+                            <Input value={eventname} label='Event Name' onChange={(text) => { seteventname(text) }} textFocuscolor='#F5F5F5' validationtext='Choose cool name for your event!' />
                         </View>
-                        <TouchableOpacity onPress={()=>{console.log("runnn")}} style={{ paddingTop: 20 }}>
-                            {/* <MyDatePicker/> */}
-                            <Input  label='Start Date and Time' validationtext='Set when event will start' textFocuscolor='#F5F5F5' />
+                        <TouchableOpacity activeOpacity={0.9} onPress={() => { setshowDatePicker(true) }} style={{ paddingTop: 20 }}>
+                            <Input editable={false} value={startDate ?JSON.stringify(strtDate) : "Select Date"} label='Start Date and Time' onChange={(text) => { setstartDate(text) }} textFocuscolor='#F5F5F5' validationtext='set when event will start' />
                         </TouchableOpacity>
-                        <View style={{ paddingTop: 20 }}>
-                            <Input label='End Date and Time' validationtext='Set when event will start' textFocuscolor='#F5F5F5' />
+                        {showEnddate && <TouchableOpacity  activeOpacity={0.9}  onPress={() => { setshowEnddatePicker(true) }} style={{ paddingTop: 20 }}>
+                            <Input editable={false} value={endDate ? JSON.stringify(endingDate) : "Select Date"} label='End Date and Time' onChange={(text) => { setendDate(text) }} textFocuscolor='#F5F5F5' validationtext='set when event will End' />
+
+                        </TouchableOpacity>}
+                        <TouchableOpacity activeOpacity={0.9} onPress={() => { setshowEnddate(true) }} style={{ paddingTop: 20 }}>
                             <View><Text style={{ fontSize: 13, color: "#7398FA", paddingTop: 7 }}> + End Date and Time</Text></View>
-                        </View>
+                        </TouchableOpacity>
+
                         <View style={{ paddingTop: 25 }}>
                             <Text style={{ fontSize: 20, color: "black" }}>Location</Text>
                             <Text style={{ fontSize: 12, paddingTop: 4, color: "#666666" }}>Get together with people in a specific location or create online experience with an external link.</Text>
@@ -67,11 +88,29 @@ function EventCreate({ navigation, route }) {
                     <View style={{ width: 75, height: 2, backgroundColor: "#CCCCCC" }}></View>
                 </View>
                 <View style={{ paddingTop: 24 }}>
-                    <Button color='#26C5D5' label='next' onPress={() => { navigation.navigate('EditDescription') }} />
+                    <Button color='#26C5D5' label='next' onPress={() => 
+                    { navigation.navigate('EditDescription',{
+                        startdate:dateFormat(startDate).formattedDate,
+                        enddate:dateFormat(endDate).formattedDate,
+                        eventName:eventname   
+
+                    }) }} />
                 </View>
             </View>
         </ScrollView >
     )
+
+    function dateFormat(date) {
+        // Parse the input date string
+        const parsedDate = new Date(date);
+        // Format the date as "YYYY-MM-DD"
+        const formattedDate = `${parsedDate.getFullYear()}-${(parsedDate.getMonth() + 1).toString().padStart(2, '0')}-${parsedDate.getDate().toString().padStart(2, '0')}`;
+        // Format the date and time as "Day Name, YYYY-MM-DD HH:mm"
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false, };
+        const formattedDateTime = parsedDate.toLocaleString('en-US', options);
+        return {formattedDate,formattedDateTime}
+
+    }
 }
 
 export default EventCreate

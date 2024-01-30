@@ -29,6 +29,14 @@ export default class WebHandler {
             })
     }
 
+    getSongsList(onSuccess, onFailure) {
+        this.sendDataGetFormRequest(Urls.GET_SOGNS_LIST,"",
+            (resp) => {
+                onSuccess(resp)
+            }, (error) => {
+                onFailure(error)
+            })
+    }
     UserAccountLogin(data, onSuccess, onFailure) {
         console.log(data)
         let bodyParam = "&email=" + data.email + "&password=" + data.password
@@ -582,6 +590,74 @@ export default class WebHandler {
             //ONLY FOR DEBUG//
             fetch(url, {
                 method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    // 'dateTime': dt,
+                    // 'url': url,
+                    // 'key': key
+                }),
+                body: _body
+            })
+                .then((response) => response.text())
+                .then((responseJson) => {
+                    console.log("RESPONSE==> 2" + JSON.stringify(responseJson))
+                }).catch((error) => {
+                    console.log("RESPONSE==>3 " + JSON.stringify(error))
+                });
+        })
+    }
+    sendDataGetFormRequest(url, _body, onResponse, onError) {
+        var dt = Date.now().toString()
+        var data = dt + url
+        // var key = CryptoJS.HmacSHA1(data, API_KEY).toString()
+
+        console.log("=====================WEB REQUEST========================")
+        console.log("URL==> " + url)
+        console.log("PARAMS==> " + _body)
+        var headers2 = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            // 'dateTime': dt,
+            // 'url': url,
+            // 'key': key
+        }
+        console.log("Header==> ", headers2)
+
+        axios.get(url, _body, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                // 'dateTime': dt,
+                // 'url': url,
+                // 'key': key
+            }
+
+        }).then(response => {
+            // console.log("RESPONSE==> " + JSON.stringify(response))
+            var responseJson = response.data
+            console.log("RESPONSE==> 1" + JSON.stringify(responseJson))
+            if (responseJson != undefined && responseJson != null) {
+                if (responseJson) {
+                    onResponse(responseJson)
+                }
+                else if (responseJson.message == "Logged out") {
+                    if (navigation) {
+                        // prefs.destroyUserSession()
+                        // navigation.navigate("Auth")
+                    }
+                    onError("You are logged out!")
+                }
+                else {
+                    onError(responseJson.message)
+                }
+            } else {
+                onError("Unknown response from server")
+            }
+        }).catch((error) => {
+            console.log(JSON.stringify(error))
+            onError(error.message)
+
+            //ONLY FOR DEBUG//
+            fetch(url, {
+                method: 'GET',
                 headers: new Headers({
                     'Content-Type': 'application/x-www-form-urlencoded',
                     // 'dateTime': dt,
