@@ -203,7 +203,12 @@ function CreatedEvent({ navigation, route }) {
         
         webHandler.createEvent(data, (resp) => {
             console.log(resp.message)
-            // navigation.navigate('HomeScreen')
+            navigation.navigate('EventData',{
+                eventName:eventName,
+                eventimage:eventimage,
+                startdate:startdate,
+                eventId:resp.event._id
+            })
         }, (error) => {
             if (error == 'Request failed with status code 400') {
                 // myUtils.showSnackbar("Error", "User Not Verified", 'danger')

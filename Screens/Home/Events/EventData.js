@@ -4,8 +4,12 @@ import { View, StyleSheet, Image } from 'react-native'
 import Button from '../../../Component/AuthFeild/Button'
 import OutlineButton from '../../../Component/AuthFeild/OutlineButton'
 import Input from '../../../Component/AuthFeild/Input'
+import QRCode from 'react-native-qrcode-svg';
 
-function EventData({ navigation }) {
+function EventData({ navigation, route }) {
+    const { startdate, enddate, eventName, eventimage, eventId } = route.params;
+    console.log(startdate, enddate, eventName, eventimage, eventId)
+
     return (
         <ScrollView>
             <View style={{ width: 350, height: 712, backgroundColor: '#F5F5F5', paddingBottom: 13 }}>
@@ -14,15 +18,14 @@ function EventData({ navigation }) {
                     <View style={{ alignSelf: 'center' }}>
                         <Text style={{ fontSize: 18 }}>Share Your Event</Text>
                     </View>
-                    <View style={{ display: 'flex', left:-20,top: 10, alignItems: 'center', gap: 13, flexDirection: 'row',alignSelf:'flex-start' }}>
+                    <View style={{ display: 'flex', left: -20, top: 10, alignItems: 'center', gap: 13, flexDirection: 'row', alignSelf: 'flex-start' }}>
+
                         <View>
-                            {/* <Image style={{ height: 70, width: 70, borderRadius: 10 }} source={{ uri: eventimage.uri }} /> */}
-                            {/* <Image source={require('../../Assests/Location.png')} /> */}
-                            <Image source={require('../../../Assests/Users.png')} />
+                            <Image style={{ height: 70, width: 70, borderRadius: 10 }} source={{ uri: eventimage.uri }} />
                         </View>
                         <View>
-                            <Text style={{ fontSize: 12, color: '#666666' }}>Friday, 2024,07,20</Text>
-                            <Text style={{ fontSize: 20, color: '#666666' }}>Rockey</Text>
+                            <Text style={{ fontSize: 12, color: '#666666' }}>{startdate.formattedDateTime}</Text>
+                            <Text style={{ fontSize: 20, color: '#666666' }}>{eventName}</Text>
                             <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
                                 <View>
                                     <Image source={require('../../../Assests/Location.png')} />
@@ -38,14 +41,20 @@ function EventData({ navigation }) {
                     <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: "black", fontSize: 20, width: 312, paddingTop: 32, fontWeight: '500' }}>Share your event as</Text>
                         <View>
-                            <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            {/* <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                 <View style={{ width: 216, height: 216, backgroundColor: 'white', marginTop: 24, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <Image source={require('../../../Assests/Scaner.png')} />
                                 </View>
+                            </View> */}
+                            <View style={{ alignSelf: 'center', marginTop: 10 }}>
+                                <QRCode
+                                    value={eventId}
+                                    size={200}
+                                />
                             </View>
 
                             <View style={{ paddingTop: 23, padding: 15, }} >
-                                <OutlineButton onPress={() => { }} label='Scan QR Code ' color='#23B7C5' />
+                                <OutlineButton onPress={() => { }} label='Share QR Code ' color='#23B7C5' />
                                 <View style={styles.any}>
                                     <View style={{
                                         width: 140,

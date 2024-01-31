@@ -153,9 +153,9 @@ function AppRouter() {
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="EditDescription" component={EditDescriptionAndImage} />
-                {/* <Stack.Screen options={{
+                <Stack.Screen options={{
                     headerShown: false
-                }} name="Share Your Event" component={EventData} /> */}
+                }} name="EventData" component={EventData} />
             </Stack.Navigator>
         </NavigationContainer>
     );

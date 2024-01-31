@@ -105,13 +105,15 @@ function EditDescriptionAndImage({ navigation, route }) {
                 {
                     text: 'Open Camera', onPress: () => {
                         ImagePicker.openCamera({
-                            cropping: true,
-                            width: 312,
-                            height: 312,
-                            includeExif: true,
+                            // cropping: true,
+                            // width: 312,
+                            // height: 312,
+                            // includeExif: true,
+                            
                         }).then(image => {
+                            console.log("image ====>>>",image)
                             let img = { uri: image.path, width: image.width, height: image.height }
-                            console.log(img, img.uri)
+                           
                             setImage(img.uri)
                         }).catch(e => alert(e.message));
                     }
