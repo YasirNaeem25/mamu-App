@@ -35,8 +35,24 @@ export default class WebHandler {
                 onFailure(error)
             })
     }
+    getPlanList(onSuccess, onFailure) {
+        this.sendDataGetFormRequest(Urls.GET_PLANS, "",
+            (resp) => {
+                onSuccess(resp)
+            }, (error) => {
+                onFailure(error)
+            })
+    }
+    getEventList(onSuccess, onFailure) {
+        this.sendDataGetFormRequest(Urls.GET_EVENT_LIST, "",
+            (resp) => {
+                onSuccess(resp)
+            }, (error) => {
+                onFailure(error)
+            })
+    }
     UserAccountLogin(data, type, onSuccess, onFailure) {
-    
+
         let bodyParam = null
 
         if (type == 'google') {
@@ -45,7 +61,7 @@ export default class WebHandler {
         if (type == 'facebook') {
             bodyParam = { "image": data.image, "name": data.name, "facebook_key": data.facebookId }
         }
-        if(type=='normal') {
+        if (type == 'normal') {
             bodyParam = { "email": data.email, "password": data.password }
         }
 
@@ -67,159 +83,65 @@ export default class WebHandler {
                 onFailure(error)
             })
     }
-    // createEvent(data, onSuccess, onFailure) {
-    //     const formData=new FormData()
-       
-    //     formData.append("eventName", data.eventName)
-    //     formData.append("start_date_time", data.start_date_time)
-    //     formData.append("end_date_time", data.end_date_time)
-    //     formData.append("descriptions", data.descriptions)
-    //     formData.append("songsList", data.songsList)
-    //     formData.append("eventOrganizerId", data.eventOrganizerId)
-    //     formData.append("image", { uri: data.file.uri, name: 'image.jpg', type: 'multipart/form-data' })
-    //     this.sendMediaPostFormRequest(Urls.ADD_EVENT, formData,
-    //         (resp) => {
-
-    //             onSuccess(resp)
-    //         }, (error) => {
-    //             onFailure(error)
-    //         })
-    // }
     formDataToJson = (formData) => {
         const jsonObject = {};
-    console.log("formData ===",formData)
+        console.log("formData ===", formData)
         for (const [key, value] of formData.entries()) {
             jsonObject[key] = value;
         }
-    
+
         return jsonObject;
     };
     convertFormDataToJson = (formData) => {
 
-        console.log("FUnction ----",formData._parts)
+        console.log("FUnction ----", formData._parts)
 
         const jsonObject = {};
-      
+
         formData._parts.forEach((value, key) => {
-          // Check if the value is a File object (for handling file input)
-          if (value instanceof File) {
-            jsonObject[key] = {
-              uri: value.uri,
-              name: value.name,
-              type: value.type,
-            };
-          } else {
-            // For non-file fields, simply use the value
-            jsonObject[key] = value;
-          }
-        });
-      
-        return jsonObject;
-      };
-      createEvent(data, onSuccess, onFailure) {
-        let data2={ uri: data.file.uri, name: 'image.jpg', type: 'image/png' }
-        let bodyParam={
-            "eventName":data.eventName,
-            "start_date_time":data.start_date_time,
-            "end_date_time":data.end_date_time,
-            "descriptions":data.descriptions,
-            "songsList":data.songsList,
-            "eventOrganizerId":data.eventOrganizerId,
-            "image":data2
-        }
-
-        
-      
-        this.sendDataObjectPostFormRequest(
-            Urls.ADD_EVENT,
-            bodyParam,
-            (resp) => {
-                onSuccess(resp);
-            },
-            (error) => {
-                onFailure(error);
+            // Check if the value is a File object (for handling file input)
+            if (value instanceof File) {
+                jsonObject[key] = {
+                    uri: value.uri,
+                    name: value.name,
+                    type: value.type,
+                };
+            } else {
+                // For non-file fields, simply use the value
+                jsonObject[key] = value;
             }
-        );
-    }
-    // createEvent(data, onSuccess, onFailure) {
-    //     const formData = new FormData();
-    
-    //     formData.append("eventName", data.eventName);
-    //     formData.append("start_date_time", data.start_date_time);
-    //     formData.append("end_date_time", data.end_date_time);
-    //     formData.append("descriptions", data.descriptions);
-    //     formData.append("songsList", data.songsList);
-    //     formData.append("eventOrganizerId", data.eventOrganizerId);
-        
-    //    let data2={ uri: data.file.uri, name: 'image.jpg', type: 'multi' }
-    //     if (data.file && data.file.uri) {
-    //         formData.append("image", data2);
-    //     }
-     
-    //     console.log("STart =====",formData)
-    //     //   const jsonData = this.convertFormDataToJson(formData);
+        });
 
-    //     //   console.log("Ending =====",jsonData)
-    //     // console.log("Form data ====",this.formDataToJson(formData))
-    //     this.sendMediaPostFormRequest(
-    //         Urls.ADD_EVENT,
-    //         formData,
-    //         (resp) => {
-    //             onSuccess(resp);
-    //         },
-    //         (error) => {
-    //             onFailure(error);
-    //         }
-    //     );
-    // }
-    
-    // sendMediaPostFormRequest(url, formData, onResponse, onError) {
-    //     // Add a boundary to the Content-Type header
-    //     const headers = new Headers({
-    //         'Content-Type': 'multipart/form-data',
-    //     });
-    
-    //     console.log("=====================WEB REQUEST========================");
-    //     console.log("URL==> " + url);
-    //     console.log("PARAMS==> " + JSON.stringify(formData));
-    
-    //     fetch(url, {
-    //         method: 'POST',
-    //         headers: headers,
-    //         body: formData,
-    //     })
-    //     .then((response) => response.json())
-    //     .then((responseJson) => {
-    //         console.log("RESPONSE==> " + JSON.stringify(responseJson));
-    //         if (responseJson.status === true) {
-    //             onResponse(responseJson);
-    //         } else {
-    //             onError(responseJson.message);
-    //         }
-    //     })
-    //     .catch((error) => {
-    //         console.error("ERROR==> " + error.message);
-    //         onError('Something went wrong while connecting to the server.');
-    
-    //         // Additional debug logging for the error scenario
-    //         console.log("Retrying with text response...");
-    
-    //         fetch(url, {
-    //             method: 'POST',
-    //             headers: headers,
-    //             body: formData,
-    //         })
-    //         .then((response) => response.text())
-    //         .then((responseText) => {
-    //             console.log("RESPONSE==> " + responseText);
-    //         })
-    //         .catch((retryError) => {
-    //             console.error("Retry Error==> " + retryError.message);
-    //             // Handle retry error as needed
-    //         });
-    //     });
-    // }
-    
+        return jsonObject;
+    };
+
+    createEvent = async (data, onSuccess, onFailure) => {
+        const formData = new FormData();
+
+        // const stringifiedSongsList = data.songsList.map(song => JSON.stringify(song));
+        // console.log("songs list ====", stringifiedSongsList)
+        // formData.append("songsList", JSON.stringify(stringifiedSongsList));
+
+        console.log("========  list of songs ====", data.songsList)
+        data.songsList.forEach((obj, index) => {
+            formData.append(`songsList[${index}][songName]`, obj.songName);
+            formData.append(`songsList[${index}][songCover]`, obj.songCover);
+            // ... add more properties if needed
+        });
+        formData.append("eventName", data.eventName);
+        formData.append("start_date_time", data.start_date_time);
+        formData.append("end_date_time", data.end_date_time);
+        formData.append("descriptions", data.descriptions);
+        // formData.append("songsList", data.songsList);
+        formData.append("eventOrganizerId", data.eventOrganizerId);
+
+        formData.append("image", {
+            uri: data.imagePath.path,
+            name: 'image.jpeg',
+            type: data.imagePath.mime,
+        });
+        this.sendPostRequest(Urls.ADD_EVENT, formData, onSuccess, onFailure)
+    }
     AccountVerifcation(data, onSuccess, onFailure) {
         let bodyParam = "&userId=" + data.userId + "&otp=" + data.otpCode
 
@@ -397,64 +319,28 @@ export default class WebHandler {
         })
     }
     sendDataGetFormRequest(url, _body, onResponse, onError) {
-        var dt = Date.now().toString()
-        var data = dt + url
-        // var key = CryptoJS.HmacSHA1(data, API_KEY).toString()
 
         console.log("=====================WEB REQUEST========================")
         console.log("URL==> " + url)
-        console.log("PARAMS==> " + _body)
-        var headers2 = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            // 'dateTime': dt,
-            // 'url': url,
-            // 'key': key
-        }
-        console.log("Header==> ", headers2)
-
         axios.get(url, _body, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                // 'dateTime': dt,
-                // 'url': url,
-                // 'key': key
-            }
 
         }).then(response => {
-            // console.log("RESPONSE==> " + JSON.stringify(response))
             var responseJson = response.data
             console.log("RESPONSE==> 1" + JSON.stringify(responseJson))
             if (responseJson != undefined && responseJson != null) {
                 if (responseJson) {
                     onResponse(responseJson)
                 }
-                else if (responseJson.message == "Logged out") {
-                    if (navigation) {
-                        // prefs.destroyUserSession()
-                        // navigation.navigate("Auth")
-                    }
-                    onError("You are logged out!")
-                }
-                else {
-                    onError(responseJson.message)
-                }
+
             } else {
                 onError("Unknown response from server")
             }
         }).catch((error) => {
             console.log(JSON.stringify(error))
             onError(error.message)
-
             //ONLY FOR DEBUG//
             fetch(url, {
                 method: 'GET',
-                headers: new Headers({
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    // 'dateTime': dt,
-                    // 'url': url,
-                    // 'key': key
-                }),
-                body: _body
             })
                 .then((response) => response.text())
                 .then((responseJson) => {
@@ -466,20 +352,16 @@ export default class WebHandler {
     }
 
     sendMediaPostFormRequest(url, formData, onResponse, onError) {
-  
-        // var key = CryptoJS.HmacSHA1(data, API_KEY)
-
         console.log("=====================WEB REQUEST========================")
         console.log("URL==> " + url)
         console.log("PARAMS==> " + JSON.stringify(formData))
-
         fetch(url, {
             method: 'POST',
             headers: new Headers({
                 'Content-Type': 'multipart/form-data',
-              
+
             }),
-            body: JSON.stringify(formData)
+            body: formData
         })
             .then((response) => response.json())
             .then((responseJson) => {
@@ -491,15 +373,12 @@ export default class WebHandler {
                 }
             }).catch((error) => {
                 onError(error.message)
-                // onError('Something went wrong while connecting to server.')
 
                 fetch(url, {
                     method: 'POST',
                     headers: new Headers({
                         'Content-Type': 'multipart/form-data',
-                        // 'dateTime': dt,
-                        // 'url': url,
-                        // 'key': key
+
                     }),
                     body: formData
                 })
@@ -511,5 +390,80 @@ export default class WebHandler {
                     });
 
             });
+    }
+
+    apiCallWithFormData = async ({ formData, URL }) => {
+        try {
+
+            const url = `${URL}`;
+            console.log(":rocket: ~ file: NewWebHandler.js:71 ~ ApiUploadFileAndDataAxios ~ url:", url)
+            const config = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+
+                }
+            }
+            try {
+                const response = await axios.post(url, formData, config);
+                if (response) {
+                    return response.data;
+                } else {
+                    return response;
+                }
+            } catch (e) {
+                if (e.response) {
+                    return e.response.data
+                } else {
+                    return e.toString();
+                }
+            }
+        } catch (e) {
+            return e.toString();
+        }
+    };
+
+    sendPostRequest(Url, bodyParams, OnSuccess, OnError) {
+        let headers = { 'Content-Type': 'application/json' }
+
+        console.log("------------API POST REQUEST--------------")
+        console.log("URL==>", Url)
+        console.log("HEADER==>", headers)
+        console.log("BODYPARAMS===>", bodyParams)
+
+        axios.post(Url, bodyParams, {
+            headers: headers,
+        })
+            .then((response) => {
+
+                console.log("RESPOSNE==>", JSON.stringify(response))
+
+                var responseJson = response
+                if (responseJson && responseJson) {
+                    OnSuccess(responseJson)
+                } else {
+                    OnError(responseJson)
+                }
+            })
+            .catch((error) => {
+
+                console.log(error.message)
+                fetch(Url, {
+                    method: 'POST',
+                    headers: new Headers({
+                        'Content-Type': 'multipart/form-data',
+
+                    }),
+                    body: bodyParams
+                })
+                    .then((response) => response.text())
+                    .then((responseText) => {
+                        console.log("RESPONSE==> " + responseText)
+                    }).catch((error) => {
+                        // onError('Something went wrong while connecting to server.')
+                    });
+
+
+            })
     }
 }

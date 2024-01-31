@@ -21,7 +21,7 @@ PODS:
     - ExpoModulesCore
     - FBSDKCoreKit
     - React-Core
-  - ExpoAdapterGoogleSignIn (9.0.2):
+  - ExpoAdapterGoogleSignIn (9.1.0):
     - ExpoModulesCore
     - GoogleSignIn (~> 6.2)
     - React-Core
@@ -507,6 +507,8 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
+  - react-native-view-shot (3.8.0):
+    - React-Core
   - React-NativeModulesApple (0.72.6):
     - hermes-engine
     - React-callinvoker
@@ -620,6 +622,8 @@ PODS:
   - RecaptchaInterop (100.0.0)
   - RNAppleAuthentication (2.3.0):
     - React-Core
+  - RNCAsyncStorage (1.21.0):
+    - React-Core
   - RNDateTimePicker (7.6.2):
     - React-Core
   - RNFBApp (18.7.3):
@@ -629,17 +633,28 @@ PODS:
     - Firebase/Auth (= 10.19.0)
     - React-Core
     - RNFBApp
-  - RNFBDynamicLinks (18.8.0):
+  - RNFBDynamicLinks (18.7.3):
     - Firebase/DynamicLinks (= 10.19.0)
     - GoogleUtilities/AppDelegateSwizzler
     - React-Core
     - RNFBApp
-  - RNGoogleSignin (9.0.2):
+  - RNGoogleSignin (9.1.0):
     - GoogleSignIn (~> 6.2)
     - React-Core
+  - RNImageCropPicker (0.40.2):
+    - React-Core
+    - React-RCTImage
+    - RNImageCropPicker/QBImagePickerController (= 0.40.2)
+    - TOCropViewController
+  - RNImageCropPicker/QBImagePickerController (0.40.2):
+    - React-Core
+    - React-RCTImage
+    - TOCropViewController
   - RNScreens (3.22.1):
     - React-Core
     - React-RCTImage
+  - RNShare (10.0.2):
+    - React-Core
   - RNSnackbar (2.6.2):
     - React-Core
   - RNSVG (13.14.0):
@@ -648,6 +663,7 @@ PODS:
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - SocketRocket (0.6.1)
+  - TOCropViewController (2.6.1)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -692,6 +708,7 @@ DEPENDENCIES:
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-fbsdk-next (from `../node_modules/react-native-fbsdk-next`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -710,12 +727,15 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSnackbar (from `../node_modules/react-native-snackbar`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -749,6 +769,7 @@ SPEC REPOS:
     - PromisesObjC
     - RecaptchaInterop
     - SocketRocket
+    - TOCropViewController
 
 EXTERNAL SOURCES:
   boost:
@@ -820,6 +841,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fbsdk-next"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-view-shot:
+    :path: "../node_modules/react-native-view-shot"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-perflogger:
@@ -856,6 +879,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNFBApp:
@@ -866,8 +891,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSnackbar:
     :path: "../node_modules/react-native-snackbar"
   RNSVG:
@@ -887,7 +916,7 @@ SPEC CHECKSUMS:
   EXFont: 738c44c390953ebcbab075a4848bfbef025fd9ee
   Expo: 61a8e1aa94311557c137c0a4dfd4fe78281cfbb4
   ExpoAdapterFBSDKNext: c573f0e4b866cd481ae3e4489473a5dcd5ff2e47
-  ExpoAdapterGoogleSignIn: 98a113d9c0ed1ce7cf6259f0907d3f93209b0d7f
+  ExpoAdapterGoogleSignIn: cacbfcc759de2918c6f530fc079f61b1119ea0b5
   ExpoKeepAwake: be4cbd52d9b177cde0fd66daa1913afa3161fc1d
   ExpoModulesCore: c480fd4e3c7c8e81f0a6ba3a7c56869f25fe016d
   EXSplashScreen: c0e7f2d4a640f3b875808ed0b88575538daf6d82
@@ -936,6 +965,7 @@ SPEC CHECKSUMS:
   react-native-date-picker: 90d1d60802a20085125657940b944f2bb4e5c113
   react-native-fbsdk-next: 9c40664b1501be29572795c2e4c8e347f39f556f
   react-native-safe-area-context: 36cc67648134e89465663b8172336a19eeda493d
+  react-native-view-shot: 6b7ed61d77d88580fed10954d45fad0eb2d47688
   React-NativeModulesApple: 02e35e9a51e10c6422f04f5e4076a7c02243fff2
   React-perflogger: e3596db7e753f51766bceadc061936ef1472edc3
   React-RCTActionSheet: 17ab132c748b4471012abbcdcf5befe860660485
@@ -955,16 +985,20 @@ SPEC CHECKSUMS:
   ReactCommon: dd03c17275c200496f346af93a7b94c53f3093a4
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNAppleAuthentication: e99eaf3c4c01ad8ecb6125dd6f0cfd98871685b5
+  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
   RNDateTimePicker: fc2e4f2795877d45e84d85659bebe627eba5c931
   RNFBApp: c21258de1485419a845efbba9c09ec946c89891d
   RNFBAuth: 079bb1bc37a912a277aedf366fe5bf4632b069c9
-  RNFBDynamicLinks: 4c91146aa15ffde3fae69c2772dfce6f53a1550a
-  RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
+  RNFBDynamicLinks: 48b581c9ea46ea1edcf088c6a95cb7416e41a190
+  RNGoogleSignin: c15bdaa7e8a9e190b6169d9c96a4e8380a740f22
+  RNImageCropPicker: d9616a0cb9b72e8551ff94a7a5021fbd29050aa5
   RNScreens: 50ffe2fa2342eabb2d0afbe19f7c1af286bc7fb3
+  RNShare: 859ff710211285676b0bcedd156c12437ea1d564
   RNSnackbar: 3727b42bf6c4314a53c18185b5203e915a4ab020
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   RNVectorIcons: 64e6a523ac30a3241efa9baf1ffbcc5e76ff747a
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
+  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: b76f1acfda8212aa16b7e26bcce3983230c82603
 
 PODFILE CHECKSUM: 9d6083c54e36cd77d3c1d75581f589ac5b3e8916

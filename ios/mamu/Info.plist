@@ -18,12 +18,11 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>to upload your profile photo</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-
-	
-
 	<array>
 		<dict>
 			<key>CFBundleTypeRole</key>
@@ -41,13 +40,23 @@
 				<string>fb912249050554413</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.mamuevent</string>
+			</array>
+		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>1</string>
 	<key>FacebookAppID</key>
 	<string>912249050554413</string>
 	<key>FacebookClientToken</key>
-    <string>b17c903504d334852b0b167b07e9e4ce</string> 
-	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>b17c903504d334852b0b167b07e9e4ce</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

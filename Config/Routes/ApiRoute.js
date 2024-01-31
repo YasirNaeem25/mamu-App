@@ -13,7 +13,9 @@ export default{
 
 
     //GET API
-    GET_SOGNS_LIST:SERVER+"get/songs"
+    GET_SOGNS_LIST:SERVER+"get/songs",
+    GET_PLANS:SERVER+"offers",
+    GET_EVENT_LIST:SERVER+"getAllEvent"
 
     
 }

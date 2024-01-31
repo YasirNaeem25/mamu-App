@@ -1,15 +1,40 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ScrollView, Text } from 'react-native'
 import { View, StyleSheet, Image } from 'react-native'
 import Button from '../../../Component/AuthFeild/Button'
 import OutlineButton from '../../../Component/AuthFeild/OutlineButton'
 import Input from '../../../Component/AuthFeild/Input'
 import QRCode from 'react-native-qrcode-svg';
+import ViewShot from "react-native-view-shot";
+import Share from 'react-native-share';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 
 function EventData({ navigation, route }) {
-    const { startdate, enddate, eventName, eventimage, eventId } = route.params;
+    const { startdate, enddate, eventName, eventimage, eventId, externalLink } = route.params;
     console.log(startdate, enddate, eventName, eventimage, eventId)
+    const ref = useRef();
+    const [qrImage, setqrImage] = useState()
+    useEffect(() => {
+        ref.current.capture().then(uri => {
+            console.log("do something with ", uri);
+            setqrImage(uri)
+        });
 
+    }, []);
+
+    function shareLink() {
+        Share.open({
+            message: externalLink,
+
+        })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                err && console.log(err);
+            });
+    }
     return (
         <ScrollView>
             <View style={{ width: 350, height: 712, backgroundColor: '#F5F5F5', paddingBottom: 13 }}>
@@ -41,20 +66,29 @@ function EventData({ navigation, route }) {
                     <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={{ color: "black", fontSize: 20, width: 312, paddingTop: 32, fontWeight: '500' }}>Share your event as</Text>
                         <View>
-                            {/* <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                <View style={{ width: 216, height: 216, backgroundColor: 'white', marginTop: 24, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Image source={require('../../../Assests/Scaner.png')} />
-                                </View>
-                            </View> */}
                             <View style={{ alignSelf: 'center', marginTop: 10 }}>
-                                <QRCode
-                                    value={eventId}
-                                    size={200}
-                                />
+                                <ViewShot ref={ref} options={{ fileName: "QRcode", format: "jpg", quality: 0.9 }}>
+                                    <QRCode
+                                        value={externalLink}
+                                        size={200}
+                                    />
+                                </ViewShot>
                             </View>
 
                             <View style={{ paddingTop: 23, padding: 15, }} >
-                                <OutlineButton onPress={() => { }} label='Share QR Code ' color='#23B7C5' />
+                                <OutlineButton onPress={() => {
+
+                                    Share.open({
+                                        message: 'QR Code',
+                                        url: qrImage,
+                                    })
+                                        .then((res) => {
+                                            console.log(res);
+                                        })
+                                        .catch((err) => {
+                                            err && console.log(err);
+                                        });
+                                }} label='Share QR Code ' color='#23B7C5' />
                                 <View style={styles.any}>
                                     <View style={{
                                         width: 140,
@@ -76,7 +110,22 @@ function EventData({ navigation, route }) {
 
                                 </View>
                                 <View style={{ width: '100%', paddingLeft: 12, paddingTop: 10 }}>
-                                    <Input textFocuscolor='#F5F5F5' label='External Link' validationtext="" />
+                                    {/* <Input editable={false} value={JSON.stringify(externalLink)} label='External Link' onChange={(text) => {  }} /> */}
+                                    <Text numberOfLines={2} style={{ borderColor: '#23B7C5', fontSize: 15, fontWeight: '500' }}>
+
+                                        External Link
+                                    </Text>
+                                    <View style={{ borderColor: '#23B7C5', padding: 5, borderRadius: 5, borderWidth: 0.9, top: 5, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Text numberOfLines={2} >
+                                            {JSON.stringify(externalLink)}
+
+
+                                        </Text>
+                                        <AntDesign onPress={() => {
+                                            shareLink()
+                                        }} style={{ padding: 10 }} name={'sharealt'} size={24} color={'#000'} />
+                                    </View>
+
                                 </View>
                                 <View style={{ width: '100%', paddingTop: 10 }} >
                                     <Button onPress={() => { navigation.navigate('addEvent') }} color='#23B7C5' label='GO TO EVENT' />

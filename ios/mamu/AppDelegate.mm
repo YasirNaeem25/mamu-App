@@ -1,12 +1,12 @@
 #import "AppDelegate.h"
-
+#import <Firebase.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
 
 #import <AuthenticationServices/AuthenticationServices.h>
 #import <SafariServices/SafariServices.h>
 #import <FBSDKCoreKit/FBSDKCoreKit-Swift.h>
-#import <Firebase.h>
+
 #import <RNFBDynamicLinksAppDelegateInterceptor.h>
 @implementation AppDelegate
 

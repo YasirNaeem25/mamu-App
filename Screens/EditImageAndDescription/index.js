@@ -7,9 +7,10 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 function EditDescriptionAndImage({ navigation, route }) {
 
-    const { startdate, enddate, eventName } = route.params;
+    const { startdate, enddate, eventName,location } = route.params;
     const [image, setImage] = useState(null)
     const [desc, setDesc] = useState(null)
+    const[imagepath,setimagepath]=useState()
     let imagee = { "uri": image }
     return (
         <ScrollView>
@@ -68,6 +69,8 @@ function EditDescriptionAndImage({ navigation, route }) {
                                 eventName: eventName,
                                 eventimage: imagee,
                                 eventDesc: desc,
+                                imagePath:imagepath,
+                                location:location
 
                             }
 
@@ -115,6 +118,7 @@ function EditDescriptionAndImage({ navigation, route }) {
                             let img = { uri: image.path, width: image.width, height: image.height }
                            
                             setImage(img.uri)
+                            setimagepath(image)
                         }).catch(e => alert(e.message));
                     }
                 },
@@ -126,7 +130,7 @@ function EditDescriptionAndImage({ navigation, route }) {
                             cropping: true
                         }).then(image => {
                             let img = { uri: image.path, width: image.width, height: image.height, mime: image.mime }
-
+                            setimagepath(image)
                             setImage(img.uri)
                         }).catch(reason => { alert(reason.message) });
                     }

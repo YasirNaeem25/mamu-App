@@ -5,7 +5,6 @@ import Input from '../../Component/AuthFeild/Input'
 import { TouchableOpacity } from 'react-native'
 import Button from '../../Component/AuthFeild/Button'
 import WebHandler from '../../Config/AxiosActions/webHandler'
-import QRCode from 'react-native-qrcode-svg';
 import Prefmanager from '../../Config/AxiosActions/prefManager'
 import Utils from '../../Component/Utils'
 
@@ -45,12 +44,7 @@ function Login({ navigation }) {
                 <View style={{ width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Text>Help Me ?</Text>
                 </View>
-                <View style={{alignSelf:'center',marginTop:10}}>
-                    <QRCode
-                        value={'5580'}
-                        size={170}
-                    />
-                </View>
+                
             </View>
         </ScrollView>
 

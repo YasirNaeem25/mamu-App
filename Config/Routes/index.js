@@ -33,6 +33,7 @@ import AddTopPlayList from '../../Screens/AddTopPlayList';
 import CreatedEvent from '../../Screens/CreatedEvent';
 import OtpVerification from '../../Screens/forgotpassword/otpVerification';
 import EventData from '../../Screens/Home/Events/EventData';
+import EventList from '../../Screens/AddEvents/EventList';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -43,7 +44,7 @@ function BottomTab() {
             tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
 
-                if (route.name === 'Event') {
+                if (route.name === 'EventList') {
                     iconName = focused
                         ? "musical-notes"
                         : 'musical-notes-outline';
@@ -59,9 +60,15 @@ function BottomTab() {
             tabBarActiveTintColor: '#E01186',
             tabBarInactiveTintColor: '#666666',
         })}>
+            {/* <Tab.Screen options={{
+                headerShown: false
+            }} name="Event" component={Event} /> */}
             <Tab.Screen options={{
                 headerShown: false
-            }} name="Event" component={Event} />
+            }} name="EventList" component={EventList} />
+
+
+
             <Tab.Screen options={{
                 headerShown: false
             }} name="Vote" component={Vote} />
@@ -83,6 +90,9 @@ function AppRouter() {
                 {/* <Stack.Screen options={{
                     headerShown: false
                 }} name="addEvent" component={AddEvent} /> */}
+                     <Stack.Screen options={{
+                    headerShown: false
+                }} name="HomeScreen" component={BottomTab} />
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="login" component={LoginHome} />
@@ -98,9 +108,9 @@ function AppRouter() {
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="CreatedEvent" component={CreatedEvent} />
-                <Stack.Screen options={{
+                {/* <Stack.Screen options={{
                     headerShown: false
-                }} name="HomeScreen" component={BottomTab} />
+                }} name="HomeScreen" component={BottomTab} /> */}
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="payment" component={PaymentBalance} />

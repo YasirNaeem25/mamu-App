@@ -6,7 +6,7 @@ import Utils from '../../Component/Utils'
 import Menupopup from '../ReuseAbleComponent/MenuPop'
 import Prefmanager from '../../Config/AxiosActions/prefManager'
 import WebHandler from '../../Config/AxiosActions/webHandler'
-
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 const webHandler = new WebHandler()
 const pref = new Prefmanager()
 const myutils = new Utils()
@@ -17,11 +17,11 @@ function CreatedEvent({ navigation, route }) {
     useEffect(() => {
 
         pref.getUserSessionData(data => {
-           console.log("Data ====>>>",data)
+            console.log("Data ====>>>", data)
             setuserData(data)
         })
     }, [])
-    const { startdate, enddate, eventName, eventimage, eventDesc, songsList,songsData } = route.params;
+    const { startdate, enddate, eventName, eventimage, eventDesc, songsList, songsData,imagePath,location } = route.params;
     console.log("=== Session Data ====", songsData)
 
     return (
@@ -118,6 +118,26 @@ function CreatedEvent({ navigation, route }) {
         </ScrollView >
     )
 
+    async function generateLink(eventId) {
+        try {
+            const link = await dynamicLinks().buildShortLink({
+                link: `https://mamuappevent.page.link/naxz?eventid=${eventId}`,
+                domainUriPrefix: 'https://mamuappevent.page.link',
+                android: {
+                    packageName: 'com.mamu',
+                },
+                ios: {
+                    appStoreId: '123456789',
+                    bundleId: 'com.mamuevent',
+                },
+            }, dynamicLinks.ShortLinkType.DEFAULT)
+            console.log('link:', link)
+            return link
+        } catch (error) {
+            console.log('Generating Link Error:', error)
+        }
+    }
+
     function renderItemView(itemData) {
         return (
             <TouchableOpacity onPress={() => {
@@ -188,7 +208,7 @@ function CreatedEvent({ navigation, route }) {
 
         )
     }
-   
+
     function createEvent() {
         let data = {
             eventName: eventName,
@@ -197,18 +217,24 @@ function CreatedEvent({ navigation, route }) {
             descriptions: eventDesc,
             songsList: songsData,
             eventOrganizerId: userData.userId,
-            file:eventimage
-            
+            file: eventimage,
+            imagePath:imagePath,
+            location:location
+
         }
-        
-        webHandler.createEvent(data, (resp) => {
+
+        webHandler.createEvent(data, async (resp) => {
             console.log(resp.message)
-            navigation.navigate('EventData',{
-                eventName:eventName,
-                eventimage:eventimage,
-                startdate:startdate,
-                eventId:resp.event._id
-            })
+            var link = await generateLink(resp.event._id)
+
+            console.log("link -----",link)
+            // navigation.navigate('EventData', {
+            //     eventName: eventName,
+            //     eventimage: eventimage,
+            //     startdate: startdate,
+            //     eventId: resp.event._id,
+            //     externalLink:link
+            // })
         }, (error) => {
             if (error == 'Request failed with status code 400') {
                 // myUtils.showSnackbar("Error", "User Not Verified", 'danger')

@@ -13,6 +13,8 @@ import {
 import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk-next';
 import { Profile } from "react-native-fbsdk-next";
 import WebHandler from '../../Config/AxiosActions/webHandler'
+import { AppleButton, appleAuth } from '@invertase/react-native-apple-authentication';
+
 
 GoogleSignin.configure({
     webClientId: '40923534712-nsgs2aud99q4115v2m9ofocvlhb7hqb3.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
@@ -22,6 +24,32 @@ GoogleSignin.configure({
 });
 
 const webHandler = new WebHandler()
+async function onAppleButtonPress() {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        // Note: it appears putting FULL_NAME first is important, see issue #293
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+ 
+    // get current authentication state for user
+    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+
+    console.log("appleAuthRequestResponse ====",appleAuthRequestResponse,"====== credentialState ====",credentialState)
+    // use credentialState response to ensure the user is authenticated
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+        // user is authenticated
+    }
+}
+
+  // other fields are available, but full name is not
+ 
+  
+
+
+
+
 function AcountCreateOPtion({ navigation }) {
     // let navigate = useNavigation()
     return (
@@ -60,6 +88,15 @@ function AcountCreateOPtion({ navigation }) {
 
                         </View>
                         <View style={styles.socialButton}>
+                            <AppleButton
+                                buttonStyle={AppleButton.Style.WHITE}
+                                buttonType={AppleButton.Type.SIGN_IN}
+                                style={{
+                                    width: 160, // You must specify a width
+                                    height: 45, // You must specify a height
+                                }}
+                                onPress={() => onAppleButtonPress()}
+                            />
                             <SocialButton onPress={() => { handleFacebookLogin() }} label='Continue with Facebook' SocialIcon='Facebook' />
                             <SocialButton onPress={() => { signIn() }} label='Continue with Google' SocialIcon='Google' />
                             <SocialButton onPress={() => { }} label='Continue with apple' SocialIcon='Apple' />
@@ -86,21 +123,21 @@ function AcountCreateOPtion({ navigation }) {
                         function (currentProfile) {
                             if (currentProfile) {
                                 console.log("The current logged user is: " +
-                                   JSON.stringify( currentProfile))
-                                  
-                                   let data={
-                                    image:currentProfile.imageURL,
-                                    name:currentProfile.name,
-                                    facebookId:currentProfile.userID
-                                   }
-                                    webHandler.UserAccountLogin(data,'facebook', (resp) => {
+                                    JSON.stringify(currentProfile))
 
-                                        console.log(resp.message)
-                                        navigation.navigate('HomeScreen')
-                                    }, (error) => {
-                                        console.log(error)
-                                    })
-                                
+                                let data = {
+                                    image: currentProfile.imageURL,
+                                    name: currentProfile.name,
+                                    facebookId: currentProfile.userID
+                                }
+                                webHandler.UserAccountLogin(data, 'facebook', (resp) => {
+
+                                    console.log(resp.message)
+                                    navigation.navigate('HomeScreen')
+                                }, (error) => {
+                                    console.log(error)
+                                })
+
                             }
                         })
                 }
@@ -117,7 +154,7 @@ function AcountCreateOPtion({ navigation }) {
             // await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
 
             const userInfo = await GoogleSignin.signIn();
-            webHandler.UserAccountLogin(userInfo,'google', (resp) => {
+            webHandler.UserAccountLogin(userInfo, 'google', (resp) => {
 
                 console.log(resp.message)
                 navigation.navigate('HomeScreen')
@@ -133,7 +170,7 @@ function AcountCreateOPtion({ navigation }) {
                 }
                 console.log(error)
             })
-           
+
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow

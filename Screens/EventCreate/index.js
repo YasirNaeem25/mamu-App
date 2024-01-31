@@ -9,6 +9,8 @@ import MyDatePicker from './MyDatePicker'
 function EventCreate({ navigation, route }) {
     const [eventName, seteventName] = useState(null);
     const receivedData = route.params;
+    const [description]=route.params
+    console.log(route.params)
     const [eventname, seteventname] = useState(null)
     const [startDate, setstartDate] = useState(null)
     const [endDate, setendDate] = useState(null)
@@ -71,9 +73,9 @@ function EventCreate({ navigation, route }) {
                             </TouchableOpacity>
                             <Text style={{ paddingTop: 4, fontSize: 12, paddingLeft: 5, color: "#666666" }}>Add a physical location for people to join your event</Text>
                         </View>
-                        <View style={{ paddingTop: 20 }}>
+                        {/* <View style={{ paddingTop: 20 }}>
                             <Input label='Add external link' textFocuscolor='#F5F5F5' validationtext='Add an external link for people to join your event.' />
-                        </View>
+                        </View> */}
                     </View>
                 </ScrollView>
             </View >
@@ -92,7 +94,8 @@ function EventCreate({ navigation, route }) {
                     { navigation.navigate('EditDescription',{
                         startdate:dateFormat(startDate),
                         enddate:dateFormat(endDate),
-                        eventName:eventname   
+                        eventName:eventname,
+                        location:description   
 
                     }) }} />
                 </View>

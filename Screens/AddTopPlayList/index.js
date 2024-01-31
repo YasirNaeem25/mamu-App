@@ -9,10 +9,11 @@ import ApiRoute from '../../Config/Routes/ApiRoute'
 import Menupopup from '../ReuseAbleComponent/MenuPop'
 
 const imageRoute = 'https://mamu-app-2e1cbc92673a.herokuapp.com/songs/'
+
 const webHandler = new WebHandler()
 function AddTopPlayList({ navigation, route }) {
 
-    const { startdate, enddate, eventName, eventimage, eventDesc } = route.params;
+    const { startdate, enddate, eventName, eventimage, eventDesc,imagePath,location } = route.params;
 
     console.log("start date ====",startdate)
     const [openSearch, setOpenSearch] = useState(false)
@@ -94,14 +95,13 @@ function AddTopPlayList({ navigation, route }) {
                     <FlatList
                         style={{ marginTop: 10 }}
                         keyExtractor={(item, index) => index.toString()}
-                        // contentContainerStyle={{ flex: myUtils.isEmptyarray(this.state.clientsCheckInData) ? 1 : 0 }}
                         data={musicData}
-                        // onRefresh={() => this.handleRefresh()}
-                        // refreshing={this.state.refreshing}
-                        // onEndReached={() => this.handleLoadMore()}
+                        // onRefresh={() => }
+                        // refreshing={}
+                        // onEndReached={() => }
                         // onEndReachedThreshold={0.2}
                         renderItem={({ item, index }) => { return renderItemView(item) }}
-                    // ListEmptyComponent={this.renderEmptyListView()}
+                    // ListEmptyComponent={renderEmptyListView()}
                     />
                 </View>
 
@@ -127,7 +127,9 @@ function AddTopPlayList({ navigation, route }) {
                             eventimage: eventimage,
                             eventDesc: eventDesc,
                             songsList: addToList,
-                            songsData:songsList
+                            songsData:songsList,
+                            imagePath:imagePath,
+                            location:location
 
                         })
                     }} />
@@ -144,7 +146,6 @@ function AddTopPlayList({ navigation, route }) {
         addToList.push(data)
         songsList.push(songData)
     }
-
     function renderItemView(itemData) {
         return (
             <TouchableOpacity onPress={() => {
