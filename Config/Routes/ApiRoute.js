@@ -10,6 +10,11 @@ export default{
 
     //Event API
     ADD_EVENT:SERVER+"addEvent",
+    REMOVE_EVENT:SERVER+"remove-event",
+
+   SONG_LIKE:SERVER+"voteSong",
+
+    
 
 
     //GET API

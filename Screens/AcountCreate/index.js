@@ -6,7 +6,7 @@ import SocialButton from '../../Component/AuthFeild/SocialIconButton'
 
 function AcountCreate({ navigation }) {
     return (
-        <ScrollView>
+   
             <ImageBackground source={require('../../Assests/backgrounimages.jpg')} style={styles.backgrounBox}>
                 <ScrollView>
                     <View style={styles.MainBox}>
@@ -17,7 +17,7 @@ function AcountCreate({ navigation }) {
                             <Image source={require('../../Assests/Network.png')} />
                         </View>
                     </View>
-                    <View style={styles.inputFeild}>
+                    <View style={[styles.inputFeild,{alignSelf:'center'}]}>
                         <Button onPress={() => navigation.navigate('AcountCreateHome')} label='Login' color='#23B7C5' />
                         <View style={styles.any}>
                             <View style={{
@@ -42,19 +42,20 @@ function AcountCreate({ navigation }) {
                         <OutlineButton onPress={() => { }} label='Create account' color='#E53799' />
                     </View>
                 </ScrollView>
-                <View style={styles.AndHeplmeSection}>
+                <View style={[styles.AndHeplmeSection,{alignSelf:'center'}]}>
                     <Text style={{ fontSize: 18, color: "white" }}>help me ?</Text>
                 </View>
             </ImageBackground >
-        </ScrollView>
+       
     )
 }
 const styles = StyleSheet.create({
     backgrounBox: {
-        width: 360,
-        height: 812,
+        // width: 360,
+        // height: 812,
         flexShrink: 0,
-        backgroundColor: 'black'
+        backgroundColor: 'black',
+        flex:1
     },
     MainBox: {
         padding: 30,
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     },
     inputFeild: {
         // marginTop: ,
-        paddingTop: 460,
+        marginTop: 460,
     },
     any: {
         display: 'flex',

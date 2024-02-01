@@ -13,42 +13,42 @@ function ChoseAPlace({ navigation }) {
         },
         {
             name: 'KFC',
-            description: 'Königstraße 1B, 70173 Stuttgart, Germany',
+            description: '936 Kiehn Route, Germany',
             CompanyIcon: '../../Assests/Machdonals.png'
         },
         {
             name: 'Texas',
-            description: 'Königstraße 1B, 70173 Stuttgart, Germany',
+            description: '15 Sellamuttu Avenue, 03, Germany',
             CompanyIcon: '../../Assests/Machdonals.png'
         },
         {
             name: 'Havemor',
-            description: 'Königstraße 1B, 70173 Stuttgart, Germany',
+            description: '3064 Schinner Village Suite 621, Germany',
             CompanyIcon: '../../Assests/Machdonals.png'
         },
         {
             name: 'Havily',
-            description: 'Königstraße 1B, 70173 Stuttgart, Germany',
+            description: 'Dilli Haat Pitampura, Near Netaji Subhash Place Metro Station, Germany',
             CompanyIcon: '../../Assests/Machdonals.png'
         },
         {
             name: 'Donisal',
-            description: 'Königstraße 1B, 70173 Stuttgart, Germany',
+            description: 'Thorsten-Busse-Platz 4, Germany',
             CompanyIcon: '../../Assests/Machdonals.png'
         },
         {
             name: 'LMNO',
-            description: 'Königstraße 1B, 70173 Stuttgart, Germany',
+            description: '89 Katherine Street, Germany',
             CompanyIcon: '../../Assests/Machdonals.png'
         },
         {
             name: 'ABC',
-            description: 'Königstraße 1B, 70173 Stuttgart, Germany',
+            description: 'Avenida Mireia, 5, 8º 2º, Germany',
             CompanyIcon: '../../Assests/Machdonals.png'
         },
         {
             name: 'XYZ',
-            description: 'Königstraße 1B, 70173 Stuttgart, Germany',
+            description: '25 Ronald Crescent, Germany',
             CompanyIcon: '../../Assests/Machdonals.png'
         },
     ]

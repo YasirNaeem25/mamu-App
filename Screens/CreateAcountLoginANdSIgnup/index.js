@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, ImageBackground, Image, Text, ScrollView } from 'react-native'
+import { View, StyleSheet, ImageBackground, Image, Text, ScrollView, Platform } from 'react-native'
 import Button from '../../Component/AuthFeild/Button'
 import OutlineButton from '../../Component/AuthFeild/OutlineButton'
 import SocialButton from '../../Component/AuthFeild/SocialIconButton'
@@ -13,7 +13,7 @@ import {
 import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk-next';
 import { Profile } from "react-native-fbsdk-next";
 import WebHandler from '../../Config/AxiosActions/webHandler'
-import { AppleButton, appleAuth } from '@invertase/react-native-apple-authentication';
+import { AppleButton, appleAuth, appleAuthAndroid } from '@invertase/react-native-apple-authentication';
 
 
 GoogleSignin.configure({
@@ -24,28 +24,11 @@ GoogleSignin.configure({
 });
 
 const webHandler = new WebHandler()
-async function onAppleButtonPress() {
-    // performs login request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-        requestedOperation: appleAuth.Operation.LOGIN,
-        // Note: it appears putting FULL_NAME first is important, see issue #293
-        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-    });
- 
-    // get current authentication state for user
-    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-    const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
 
-    console.log("appleAuthRequestResponse ====",appleAuthRequestResponse,"====== credentialState ====",credentialState)
-    // use credentialState response to ensure the user is authenticated
-    if (credentialState === appleAuth.State.AUTHORIZED) {
-        // user is authenticated
-    }
-}
 
-  // other fields are available, but full name is not
- 
-  
+// other fields are available, but full name is not
+
+
 
 
 
@@ -53,7 +36,7 @@ async function onAppleButtonPress() {
 function AcountCreateOPtion({ navigation }) {
     // let navigate = useNavigation()
     return (
-        <ScrollView>
+    
             <View style={styles.backgrounBox}>
                 <ScrollView>
                     <View style={styles.MainBox}>
@@ -64,7 +47,7 @@ function AcountCreateOPtion({ navigation }) {
                             <Image source={require('../../Assests/Network.png')} />
                         </View>
                     </View>
-                    <View style={styles.inputFeild}>
+                    <View style={[styles.inputFeild,{alignSelf:'center'}]}>
                         <Button onPress={() => { navigation.navigate('loginAcount') }} label='Login' color='#23B7C5' />
                         <OutlineButton onPress={() => { navigation.navigate('loginAndCreateAcountHome') }} label='Create account' color='#E53799' />
                         <View style={styles.any}>
@@ -88,31 +71,90 @@ function AcountCreateOPtion({ navigation }) {
 
                         </View>
                         <View style={styles.socialButton}>
-                            <AppleButton
-                                buttonStyle={AppleButton.Style.WHITE}
-                                buttonType={AppleButton.Type.SIGN_IN}
-                                style={{
-                                    width: 160, // You must specify a width
-                                    height: 45, // You must specify a height
-                                }}
-                                onPress={() => onAppleButtonPress()}
-                            />
+                            {/* {Platform.OS == 'android' ?
+                                appleAuthAndroid.isSupported && (
+                                    <AppleButton
+                                        buttonStyle={AppleButton.Style.WHITE}
+                                        buttonType={AppleButton.Type.SIGN_IN}
+                                        onPress={() => onAppleButtonPress()}
+                                    />
+                                )
+
+                                :
+                                <AppleButton
+                                    buttonStyle={AppleButton.Style.WHITE}
+                                    buttonType={AppleButton.Type.SIGN_IN}
+                                    style={{
+                                        width: 160, // You must specify a width
+                                        height: 45, // You must specify a height
+                                    }}
+                                    onPress={() => onAppleButtonPress()}
+                                />
+                            } */}
                             <SocialButton onPress={() => { handleFacebookLogin() }} label='Continue with Facebook' SocialIcon='Facebook' />
                             <SocialButton onPress={() => { signIn() }} label='Continue with Google' SocialIcon='Google' />
-                            <SocialButton onPress={() => { }} label='Continue with apple' SocialIcon='Apple' />
+                            <SocialButton onPress={() => { onAppleButtonPress() }} label='Continue with apple' SocialIcon='Apple' />
 
 
                         </View>
                     </View>
                 </ScrollView>
-                <View style={styles.AndHeplmeSection}>
+                <View style={[styles.AndHeplmeSection,{alignSelf:'center'}]}>
                     <Text style={{ fontSize: 18, color: "white" }}>help me ?</Text>
                 </View>
 
             </View >
-        </ScrollView>
+    
     )
 
+    async function onAppleButtonPress() {
+        // performs login request
+        const appleAuthRequestResponse = await appleAuth.performRequest({
+            requestedOperation: appleAuth.Operation.LOGIN,
+            // Note: it appears putting FULL_NAME first is important, see issue #293
+            requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+        });
+    
+        // get current authentication state for user
+        // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+        const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+    
+        console.log("appleAuthRequestResponse ====", appleAuthRequestResponse, "====== credentialState ====", credentialState)
+    
+        let AppleLoginData={
+            email:appleAuthRequestResponse.email,
+            name:appleAuthRequestResponse.fullName.givenName,
+            userid:appleAuthRequestResponse.user
+
+        }
+        // let AppleLoginData={
+        //     email:'yasir252743@gmail.com',
+        //     name:'yasir',
+        //     userid:"000156.29b07563ae7c498a94d5f8284c726b61.1415"
+
+        // }
+        webHandler.UserAccountLogin(AppleLoginData, 'apple', (resp) => {
+    
+            console.log(resp.message)
+            navigation.navigate('HomeScreen')
+    
+            // this.props.navigation.navigate('Verification', {
+            //     _trainerId: resp.trainer_id,
+            //     _verificationType: "NEW_ACCOUNT"
+            // })
+        }, (error) => {
+            if (error == 'Request failed with status code 400') {
+                // myUtils.showSnackbar("Error", "User Not Verified", 'danger')
+    
+            }
+            console.log(error)
+        })
+    
+        // use credentialState response to ensure the user is authenticated
+        if (credentialState === appleAuth.State.AUTHORIZED) {
+            // user is authenticated
+        }
+    }
     function handleFacebookLogin() {
         LoginManager.logInWithPermissions(['public_profile', 'email']).then(
             function (result) {
@@ -190,9 +232,9 @@ function AcountCreateOPtion({ navigation }) {
 }
 const styles = StyleSheet.create({
     backgrounBox: {
-        width: 360,
-        backgroundColor: '#055249',
-        height: 812,
+       flex:1,
+        backgroundColor: '#000',
+       
         // backgroundColor: "conic-gradient(from 136deg at 51.69% 50.74%, #0D1114 54.7453773021698deg, #061917 154.8828399181366deg, #055F52 233.18689584732056deg, #054F46 264.5751357078552deg, #065950 351.2843656539917deg);"
     },
     MainBox: {

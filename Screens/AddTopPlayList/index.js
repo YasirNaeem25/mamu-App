@@ -11,6 +11,7 @@ import Menupopup from '../ReuseAbleComponent/MenuPop'
 const imageRoute = 'https://mamu-app-2e1cbc92673a.herokuapp.com/songs/'
 
 const webHandler = new WebHandler()
+
 function AddTopPlayList({ navigation, route }) {
 
     const { startdate, enddate, eventName, eventimage, eventDesc,imagePath,location } = route.params;
@@ -56,7 +57,7 @@ function AddTopPlayList({ navigation, route }) {
     }, [])
     return (
         <View>
-            <View style={{ height: 665, backgroundColor: '#F5F5F5' }}>
+            <View style={{  backgroundColor: '#F5F5F5' }}>
                 <Header label='Create New Event' />
                 {openSearch ?
 
@@ -107,8 +108,8 @@ function AddTopPlayList({ navigation, route }) {
 
             </View >
             <View style={{
-                width: 360, height: 90, backgroundColor: "white",
-                position: 'relative', bottom: 0,
+                 height: 90,
+                position: 'relative', bottom: 0,alignSelf:'center',marginTop:20
             }}>
                 <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 3 }}>
                     <View style={{ width: 75, height: 2, backgroundColor: "#CCCCCC" }}></View>
@@ -174,7 +175,7 @@ function AddTopPlayList({ navigation, route }) {
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <View>
                             <Text style={{ fontSize: 16, color: "black" }}>
-                                {itemData.title}
+                                {itemData.songName}
                             </Text>
                             <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', gap: 3 }}>
                                 <Image source={require('../../Assests/BlueUser.png')} />

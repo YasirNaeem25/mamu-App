@@ -1,30 +1,34 @@
 import React from 'react'
-import { Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
-function Header(props, { navigation }) {
+function Header(props, {  }) {
+    const navigation=useNavigation()
     return (
-        <View style={style.Header}>
-            <View style={{ paddingTop: 10, }}>
-                <TouchableOpacity onPress={() => {
-
-                }}>
-                    <Image source={require('../../Assests/BackArrow.png')} />
-                </TouchableOpacity>
+        <SafeAreaView>
+            <View style={style.Header}>
+                <View style={{ }}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.goBack()
+                    }}>
+                        <Image source={require('../../Assests/BackArrow.png')} />
+                    </TouchableOpacity>
+                </View>
+                <View style={{ paddingTop: 10, }}>
+                    <Text style={style.headertitle}>{props.label ? props.label : 'Home'}</Text>
+                </View>
+                <View style={{ paddingTop: 10, }}>
+                    <Image source={require('../../Assests/Network.png')} />
+                </View>
             </View>
-            <View style={{ paddingTop: 10, }}>
-                <Text style={style.headertitle}>{props.label ? props.label : 'Home'}</Text>
-            </View>
-            <View style={{ paddingTop: 10, }}>
-                <Image source={require('../../Assests/Network.png')} />
-            </View>
-        </View>
+        </SafeAreaView>
     )
 }
 const style = StyleSheet.create({
     Header: {
-        width: 360,
+        width:'100%',
         backgroundColor: "white",
-        height: 65,
+        // height: 65,
         // paddingTop: 10,
         padding: 16,
         display: "flex",

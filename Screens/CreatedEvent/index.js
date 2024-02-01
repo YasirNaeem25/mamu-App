@@ -21,49 +21,23 @@ function CreatedEvent({ navigation, route }) {
             setuserData(data)
         })
     }, [])
-    const { startdate, enddate, eventName, eventimage, eventDesc, songsList, songsData,imagePath,location } = route.params;
-    console.log("=== Session Data ====", songsData)
+    const { startdate, enddate, eventName, eventimage, eventDesc, songsList, songsData, imagePath, location } = route.params;
+    console.log("=== Session Data ====", location)
 
     return (
         <ScrollView>
             <View style={{ height: 665, backgroundColor: "#f5f5f5" }}>
                 <Header label='Create New Event' />
                 {/* ////? */}
-                <View style={{ width: 360, backgroundColor: 'white', padding: 16 }}>
-                    <View style={{ display: 'flex', padding: 10, alignItems: 'center', gap: 13, flexDirection: 'row' }}>
-                        <View>
-                            <Image style={{ height: 70, width: 70, borderRadius: 10 }} source={{ uri: eventimage.uri }} />
-                        </View>
-                        <View>
-                            <Text style={{ fontSize: 12, color: '#666666' }}>{startdate.formattedDateTime}</Text>
-                            <Text style={{ fontSize: 20, color: '#666666' }}>{eventName}</Text>
-                            <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-                                <View>
-                                    <Image source={require('../../Assests/Location.png')} />
-                                </View>
-                                <View>
-                                    <Text style={{ fontSize: 12, color: '#666666' }}>Hard Rock Cafe Berlin</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={{ paddingTop: 24 }}>
-                        <Text style={{ fontSize: 12, color: '#666666' }}>Description</Text>
-                        <Text style={{ fontSize: 16, color: '#666666' }}>
-                            {eventDesc}
-                        </Text>
-                        <Text style={{ paddingTop: 24, fontSize: 12, color: "#666666" }}>Event By</Text>
+                <ScrollView style={{ flex: 0.5 }}>
+                    <View style={{ backgroundColor: 'white', padding: 16 }}>
                         <View style={{ display: 'flex', padding: 10, alignItems: 'center', gap: 13, flexDirection: 'row' }}>
                             <View>
-                                {userData?.userProfilePic ?
-                                    <Image style={{ height: 50, width: 50, borderRadius: 10 }} source={{ uri: userData?.userProfilePic }} />
-                                    :
-                                    <Image source={require('../../Assests/Music.png')} />
-
-                                }
+                                <Image style={{ height: 70, width: 70, borderRadius: 10 }} source={{ uri: eventimage.uri }} />
                             </View>
                             <View>
-                                <Text style={{ fontSize: 20, color: '#666666' }}>{userData?.displayName}</Text>
+                                <Text style={{ fontSize: 12, color: '#666666' }}>{startdate.formattedDateTime}</Text>
+                                <Text style={{ fontSize: 20, color: '#666666' }}>{eventName}</Text>
                                 <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
                                     <View>
                                         <Image source={require('../../Assests/Location.png')} />
@@ -74,36 +48,63 @@ function CreatedEvent({ navigation, route }) {
                                 </View>
                             </View>
                         </View>
-                    </View>
+                        <View style={{ paddingTop: 24 }}>
+                            <Text style={{ fontSize: 12, color: '#666666' }}>Description</Text>
+                            <Text style={{ fontSize: 16, color: '#666666' }}>
+                                {eventDesc}
+                            </Text>
+                            <Text style={{ paddingTop: 24, fontSize: 12, color: "#666666" }}>Event By</Text>
+                            <View style={{ display: 'flex', padding: 10, alignItems: 'center', gap: 13, flexDirection: 'row' }}>
+                                <View>
+                                    {userData?.userProfilePic ?
+                                        <Image style={{ height: 50, width: 50, borderRadius: 10 }} source={{ uri: userData?.userProfilePic }} />
+                                        :
+                                        <Image source={require('../../Assests/Music.png')} />
 
-                </View >
-                <View style={{ padding: 15 }}>
-                    <View style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
-                        <View><Text style={{ fontSize: 13, color: "black" }}>Event Playlist</Text></View>
-                        <View><Text style={{
-                            fontSize: 13, color: "#666666",
-                            textDecorationLine: 'underline',
-                        }}>See all</Text></View>
+                                    }
+                                </View>
+                                <View>
+                                    <Text style={{ fontSize: 20, color: '#666666' }}>{userData?.displayName}</Text>
+                                    <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
+                                        <View>
+                                            <Image source={require('../../Assests/Location.png')} />
+                                        </View>
+                                        <View>
+                                            <Text style={{ fontSize: 12, color: '#666666' }}>Hard Rock Cafe Berlin</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
 
+                    </View >
+                    <View style={{ padding: 15 }}>
+                        <View style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
+                            <View><Text style={{ fontSize: 13, color: "black" }}>Event Playlist</Text></View>
+                            <View><Text style={{
+                                fontSize: 13, color: "#666666",
+                                textDecorationLine: 'underline',
+                            }}>See all</Text></View>
+
+                        </View>
+                        <FlatList
+                            style={{ marginTop: 10 }}
+                            keyExtractor={(item, index) => index.toString()}
+                            // contentContainerStyle={{ flex: myUtils.isEmptyarray(this.state.clientsCheckInData) ? 1 : 0 }}
+                            data={songsList}
+                            // onRefresh={() => this.handleRefresh()}
+                            // refreshing={this.state.refreshing}
+                            // onEndReached={() => this.handleLoadMore()}
+                            // onEndReachedThreshold={0.2}
+                            renderItem={({ item, index }) => { return renderItemView(item) }}
+                        // ListEmptyComponent={this.renderEmptyListView()}
+                        />
                     </View>
-                    <FlatList
-                        style={{ marginTop: 10 }}
-                        keyExtractor={(item, index) => index.toString()}
-                        // contentContainerStyle={{ flex: myUtils.isEmptyarray(this.state.clientsCheckInData) ? 1 : 0 }}
-                        data={songsList}
-                        // onRefresh={() => this.handleRefresh()}
-                        // refreshing={this.state.refreshing}
-                        // onEndReached={() => this.handleLoadMore()}
-                        // onEndReachedThreshold={0.2}
-                        renderItem={({ item, index }) => { return renderItemView(item) }}
-                    // ListEmptyComponent={this.renderEmptyListView()}
-                    />
-                </View>
+                </ScrollView>
 
             </View >
             <View style={{
-                width: 360, height: 90, backgroundColor: "white",
-                position: 'relative', bottom: 0,
+                alignSelf: 'center', marginTop: 20
             }}>
                 <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 3 }}>
                     <View style={{ width: 75, height: 2, backgroundColor: "#CCCCCC" }}></View>
@@ -111,7 +112,7 @@ function CreatedEvent({ navigation, route }) {
                     <View style={{ width: 75, height: 2, backgroundColor: "#CCCCCC" }}></View>
                     <View style={{ width: 75, height: 2, backgroundColor: "#26C5D5" }}></View>
                 </View>
-                <View style={{ paddingTop: 24 }}>
+                <View style={{ top: -5 }}>
                     <Button color='#26C5D5' label='Create event' onPress={() => { createEvent() }} />
                 </View>
             </View>
@@ -218,23 +219,25 @@ function CreatedEvent({ navigation, route }) {
             songsList: songsData,
             eventOrganizerId: userData.userId,
             file: eventimage,
-            imagePath:imagePath,
-            location:location
+            imagePath: imagePath,
+            location: location
 
         }
 
         webHandler.createEvent(data, async (resp) => {
-            console.log(resp.message)
+            console.log("======= Done ======", resp.message)
             var link = await generateLink(resp.event._id)
 
-            console.log("link -----",link)
-            // navigation.navigate('EventData', {
-            //     eventName: eventName,
-            //     eventimage: eventimage,
-            //     startdate: startdate,
-            //     eventId: resp.event._id,
-            //     externalLink:link
-            // })
+            navigation.navigate('EventData', {
+                eventName: eventName,
+                eventimage: eventimage,
+                startdate: startdate,
+                eventId: resp.event._id,
+                externalLink: link,
+                location: resp.event.location
+
+
+            })
         }, (error) => {
             if (error == 'Request failed with status code 400') {
                 // myUtils.showSnackbar("Error", "User Not Verified", 'danger')

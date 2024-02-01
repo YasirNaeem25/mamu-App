@@ -23,7 +23,7 @@ function CreateAcount({ route, navigation }) {
                         paddingLeft: 24,
                         paddingRight: 24
                     }}>
-                        <Text style={style.Heading}>Let’s create your account!</Text>
+                        <Text style={[style.Heading,{alignSelf:'center'}]}>Let’s create your account!</Text>
                         <View style={{ paddingTop: 20 }}>
                             <Input value={userEmail} label='Email' onChange={(text) => { setuserEmail(text) }} validationtext='Verification email will be sent on this address.' />
 
@@ -36,7 +36,7 @@ function CreateAcount({ route, navigation }) {
                             <Input value={password} label='Password' onChange={(text) => { setpassword(text) }} validationtext="Password must be 8+ characters long." />
                         </View>
                     </View>
-                    <View style={{ paddingTop: 20 }}>
+                    <View style={{ paddingTop: 20,alignSelf:'center' }}>
                         <Button onPress={() => RegisterUser()} label='Continue' color='#23B7C5' />
                         <View style={{ paddingTop: 26, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                             <Text style={{ fontSize: 13, color: '#666', }}>Already have an account?</Text>
@@ -48,7 +48,7 @@ function CreateAcount({ route, navigation }) {
                             ><Text style={{ color: "black", }}>login</Text></TouchableOpacity></Text>
                         </View>
                     </View>
-                    <View style={{ width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{alignSelf:'center', width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Text>Help Me ?</Text>
                     </View>
                 </View>

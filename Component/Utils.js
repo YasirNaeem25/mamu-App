@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
+import { ActivityIndicator } from 'react-native-paper';
 export default class Utils extends React.Component {
 
     showSnackbar(title, message, type) {
@@ -19,6 +21,13 @@ export default class Utils extends React.Component {
         const formattedDateTime = parsedDate.toLocaleString('en-US', options);
         return { formattedDate, formattedDateTime }
 
+    }
+    renderLoadingstate() {
+        return (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <ActivityIndicator size='small' color={'#23B7C5'} />
+            </View>
+        )
     }
     formatDate(inputDate) {
         const months = {

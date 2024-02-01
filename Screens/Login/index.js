@@ -16,11 +16,11 @@ function Login({ navigation }) {
     const [userEmail, setuserEmail] = useState(null)
     const [password, setpassword] = useState(null)
     return (
-        <ScrollView>
-            <View style={{ backgroundColor: "white", height: 812 }}>
+     
+            <View style={{ backgroundColor: "white",flex:1 }}>
                 <Header label='Login' />
-                <View style={{ padding: 24, }}>
-                    <Text style={{ paddingTop: 10, fontSize: 20, color: 'black' }}>Welcome back to Spinder</Text>
+                <View style={{ padding: 24}}>
+                    <Text style={{ paddingTop: 10, fontSize: 20, color: 'black',alignSelf:'center' }}>Welcome back to Spinder</Text>
                     <View style={{ paddingTop: 20 }}>
                         {/* <Input label='Email or Username' /> */}
                         <Input value={userEmail} label='Email or Username' onChange={(text) => { setuserEmail(text) }} />
@@ -34,10 +34,10 @@ function Login({ navigation }) {
                         <TouchableOpacity onPress={() => { navigation.navigate('forgetPassword') }}><Text style={{ fontSize: 12, color: 'black', borderBottomWidth: 1, position: "absolute", borderBottomColor: "black" }}>Forgot password?</Text></TouchableOpacity>
                     </View>
                 </View>
-                <View style={{ paddingTop: 20 }}>
+                <View style={{ paddingTop: 20,alignSelf:'center'}}>
                     <Button color='#23B7C5' label='LOG IN' onPress={() => { userLogin() }} />
                     <View style={{ paddingTop: 26, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 13, color: '#666', }}>Don't have an account?</Text>
+                        <Text style={{ fontSize: 13, color: '#666',alignSelf:'center' }}>Don't have an account?</Text>
                         <Text> <TouchableOpacity onPress={() => { navigation.navigate('CreateAcount') }}><Text style={{ color: "black", }}>Let's create one.</Text></TouchableOpacity></Text>
                     </View>
                 </View>
@@ -46,7 +46,7 @@ function Login({ navigation }) {
                 </View>
                 
             </View>
-        </ScrollView>
+   
 
     )
 
@@ -63,7 +63,7 @@ function Login({ navigation }) {
                 password: password,
 
             }
-            webHandler.UserAccountLogin(userData, (resp) => {
+            webHandler.UserAccountLogin(userData,'normal', (resp) => {
 
                 console.log(resp.message)
                 navigation.navigate('HomeScreen')

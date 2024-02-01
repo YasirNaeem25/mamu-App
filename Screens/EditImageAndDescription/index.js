@@ -13,10 +13,10 @@ function EditDescriptionAndImage({ navigation, route }) {
     const[imagepath,setimagepath]=useState()
     let imagee = { "uri": image }
     return (
-        <ScrollView>
+        <ScrollView style={{flex:1}}>
             <View style={{ height: 665, backgroundColor: '#F5F5F5' }}>
                 <Header label='Create New Event' />
-                <View style={{ padding: 24 }}>
+                <View style={{ padding: 24,alignSelf:'center' }}>
                     <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View><Text style={{ fontSize: 20, color: "black" }}>Event Cover</Text></View>
                         <TouchableOpacity style={{
@@ -50,7 +50,7 @@ function EditDescriptionAndImage({ navigation, route }) {
                 </View>
             </View >
             <View style={{
-                width: 360, height: 90, backgroundColor: "white",
+                width: 360, height: 90,alignSelf:'center' ,marginTop:10,
                 position: 'relative', bottom: 0,
             }}>
                 <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 3 }}>

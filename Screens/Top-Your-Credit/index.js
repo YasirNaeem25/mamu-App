@@ -4,7 +4,7 @@ import Header from '../../Component/Header'
 import Button from '../../Component/AuthFeild/Button'
 import WebHandler from '../../Config/AxiosActions/webHandler'
 const webHandler = new WebHandler()
-function PaymentBalance() {
+function PaymentBalance({navigation}) {
     const [planList, setplanList] = useState()
     useEffect(() => {
         webHandler.getPlanList((resp) => {
@@ -42,8 +42,8 @@ function PaymentBalance() {
                 </View>
                 <Text style={{ paddingTop: 18, color: '#666666', fontSize: 13, textDecorationLine: 'underline', }}>Terms and Conditions</Text>
             </View>
-            <View style={{ paddingTop: 42, }}>
-                <Button label='Continue' color='#E01186' />
+            <View style={{ paddingTop: 42,alignSelf:'center' }}>
+                <Button onPress={() => { navigation.navigate('CardPayment') }}  label='Continue' color='#E01186' />
             </View>
         </View>
     )

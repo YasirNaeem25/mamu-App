@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
 
 import Prefmanager from '../../../Config/AxiosActions/prefManager'
-const pref=new Prefmanager()
+const pref = new Prefmanager()
 function Profile({ navigation }) {
 
-    const [userData,setuserData]=useState()
+    const [userData, setuserData] = useState()
     useEffect(() => {
 
         pref.getUserSessionData(data => {
-            console.log("Data ====>>>", data)
             setuserData(data)
         })
 
@@ -17,18 +16,22 @@ function Profile({ navigation }) {
     }, [])
 
     return (
-        <ScrollView>
-            <View style={{ width: 360, paddingBottom: 10, backgroundColor: "#F5F5F5", }}>
+        <ScrollView style={{ flex: 1 }}>
+            <View style={{ paddingBottom: 10, backgroundColor: "#F5F5F5",alignSelf:'center' }}>
                 <View style={{ paddingTop: 76, display: 'flex', justifyContent: "center", alignItems: 'center' }}>
                     {/* <View style={{ width: 112, height: 112, backgroundColor: "#FABABA", padding: 10, borderRadius: 56, display: 'flex', justifyContent: 'flex-end', alignItems: "center" }}> */}
-                        <TouchableOpacity >
-                            {/* <Text>Edit</Text> */}
-                            <Image style={{ height:112, width: 112, borderRadius: 60 }} source={{ uri:userData.userProfilePic}} />
-                        </TouchableOpacity>
+                    <TouchableOpacity >
+                        {userData ?
+                            <Image style={{ height: 112, width: 112, borderRadius: 60 }} source={{ uri: userData?.userProfilePic }} />
+                            :
+                            <Image source={require('../../../Assests/Users.png')} />
+
+                        }
+                    </TouchableOpacity>
                     {/* </View> */}
-                    <Text style={{ fontSize: 20, paddingTop: 5 }}>{userData.userName}</Text>
+                    {userData && <Text style={{ fontSize: 20, paddingTop: 5 }}>{userData.userName}</Text>}
                 </View>
-                <View style={{ paddingLeft: 16, paddingRight: 16, }}>
+                <View style={{ paddingLeft: 16, paddingRight: 16,  }}>
                     <Text style={{ paddingTop: 24, color: '#666666', fontSize: 14, paddingBottom: 5 }}>Account</Text>
                     <View style={{
                         width: 328, height: 104, borderRadius: 8, backgroundColor: '#FFFFFF',
@@ -51,7 +54,7 @@ function Profile({ navigation }) {
                                 <TouchableOpacity onPress={() => { navigation.navigate('EditUserNames') }}>
                                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                                         <View>
-                                            <Text style={{ fontSize: 14, color: '#666666' }}>{userData.userName}</Text>
+                                            {userData && <Text style={{ fontSize: 14, color: '#666666' }}>{userData.userName}</Text>}
                                         </View>
                                         <View>
                                             <Image source={require('../../../Assests/ArrowForwardIosFilled.png')} />
@@ -73,7 +76,7 @@ function Profile({ navigation }) {
                                 <TouchableOpacity onPress={() => { navigation.navigate('EditEmailAdress') }}>
                                     <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', gap: 8 }}>
                                         <View>
-                                            <Text style={{ fontSize: 14, color: '#666666' }}>{userData.email}</Text>
+                                            {userData && <Text style={{ fontSize: 14, color: '#666666' }}>{userData.email}</Text>}
                                         </View>
                                         <View>
                                             <Image source={require('../../../Assests/ArrowForwardIosFilled.png')} />

@@ -5,18 +5,24 @@ import { RadioButton, Snackbar } from 'react-native-paper';
 import Button from '../../Component/AuthFeild/Button';
 import Utils from '../../Component/Utils';
 
-const myUtils=new Utils()
+const myUtils = new Utils()
 function LoginAndAcountCreateHome({ navigation }) {
     const [checked, setChecked] = useState(false);
     const [checkedSecond, setCheckedSecond] = useState(false);
-    const [usertype,setusertype]=useState(null)
+    const [usertype, setusertype] = useState(null)
 
     return (
-        <ScrollView>
-            <View style={{ backgroundColor: "white", height: 812 }}>
-                <Header label='Signup' />
-                <View style={{ paddingLeft: 24 }}>
-                    <Text style={styles.Heading}>Please choose what kind of account you want to make?</Text>
+
+        <View style={{ backgroundColor: "white", flex: 1 }}>
+            <Header label='Signup' />
+            <ScrollView style={{ flex: 1 }}>
+                <View>
+                    <Text style={[styles.Heading, { width: '90%', alignSelf: 'center' }]}>
+                        Please choose what kind of account you want to make?
+                    </Text>
+                </View>
+                <View style={{ alignSelf: 'center' }}>
+
                     <View style={checked ? styles.ChipsBorder : styles.Chips}>
                         <View>
                             <Image source={require('../../Assests/simple-icons_discogs.png')} />
@@ -25,15 +31,15 @@ function LoginAndAcountCreateHome({ navigation }) {
                             <View>
                                 <Text style={{ fontSize: 16, color: "#595959" }}>Disc Joskey</Text>
                                 <Text style={{ width: 186, fontSize: 11, color: '#595959' }}>
-                                    
+
                                     As a Disc Jockey you can create an events, make music list - some text
                                 </Text>
                             </View>
                             <View>
                                 <RadioButton
                                     value="Selected"
-                                    status={checked? 'checked' : 'unchecked'}
-                                    onPress={() => {setChecked(!checked),setCheckedSecond(false),setusertype('user')}}
+                                    status={checked ? 'checked' : 'unchecked'}
+                                    onPress={() => { setChecked(!checked), setCheckedSecond(false), setusertype('user') }}
                                     color={'#23b7c5'}
                                 />
                             </View>
@@ -52,12 +58,14 @@ function LoginAndAcountCreateHome({ navigation }) {
                             </View>
                             <View>
                                 <RadioButton
-                                
+
                                     value="Selected"
-                                    status={checkedSecond? 'checked' : 'unchecked'}
-                                    onPress={() => {setCheckedSecond(!checkedSecond),setChecked(false)
-                                        setusertype('guest') }
-                                        
+                                    status={checkedSecond ? 'checked' : 'unchecked'}
+                                    onPress={() => {
+                                        setCheckedSecond(!checkedSecond), setChecked(false)
+                                        setusertype('guest')
+                                    }
+
                                     }
                                     color={'#23b7c5'}
                                 />
@@ -65,29 +73,29 @@ function LoginAndAcountCreateHome({ navigation }) {
                         </View>
                     </View>
                 </View>
-                <View style={{ paddingTop: 92 }}>
-                    <Button label='Continue' color='#23b7c5' onPress={() =>  HandleOnpres() } />
+                <View style={{ paddingTop: 92, alignSelf: 'center' }}>
+                    <Button label='Continue' color='#23b7c5' onPress={() => HandleOnpres()} />
                     <View style={{ paddingTop: 26, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
                         <Text style={{ fontSize: 13, color: '#666', }}>Already have an account?</Text>
                         <Text> <TouchableOpacity onPress={() => { navigation.navigate('loginAcount') }}><Text style={{ color: "black", }}>login</Text></TouchableOpacity></Text>
                     </View>
                 </View>
-                <View style={{ width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ alignSelf: 'center', width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Text>Help Me ?</Text>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
+
 
     )
 
-    function HandleOnpres(){
-        if(usertype)
-        {
-        navigation.navigate('CreateAcount',{
-            userType:usertype
-          })
+    function HandleOnpres() {
+        if (usertype) {
+            navigation.navigate('CreateAcount', {
+                userType: usertype
+            })
         }
-      
+
     }
 
 

@@ -7,7 +7,7 @@ import SocialButton from '../../Component/AuthFeild/SocialIconButton'
 function CreateAcountHOme({ navigation }) {
     // let navigate = useNavigation()
     return (
-        <ScrollView>
+
             <View style={styles.backgrounBox}>
                 <ScrollView>
                     <View style={styles.MainBox}>
@@ -18,7 +18,7 @@ function CreateAcountHOme({ navigation }) {
                             <Image source={require('../../Assests/Network.png')} />
                         </View>
                     </View>
-                    <View style={styles.inputFeild}>
+                    <View style={[styles.inputFeild,{alignSelf:'center'}]}>
                         <Button onPress={() => navigation.navigate('optionAcount')} label='Login' color='#23B7C5' />
                         <OutlineButton onPress={() => { }} label='Create account' color='#E53799' />
                         <View style={styles.any}>
@@ -54,18 +54,16 @@ function CreateAcountHOme({ navigation }) {
                         </View>
                     </View>
                 </ScrollView>
-                <View style={styles.AndHeplmeSection}>
+                <View style={[styles.AndHeplmeSection,{alignSelf:'center'}]}>
                     <Text style={{ fontSize: 15, color: "black" }}>help me ?</Text>
                 </View>
             </View >
-        </ScrollView>
+     
     )
 }
 const styles = StyleSheet.create({
     backgrounBox: {
-        width: 360,
-        height: 812,
-        flexShrink: 0,
+        flex:1
     },
     MainBox: {
         padding: 30,
@@ -79,7 +77,7 @@ const styles = StyleSheet.create({
     },
     inputFeild: {
         // marginTop: ,
-        paddingTop: 240,
+        paddingTop: 280,
     },
     any: {
         display: 'flex',

@@ -34,6 +34,7 @@ import CreatedEvent from '../../Screens/CreatedEvent';
 import OtpVerification from '../../Screens/forgotpassword/otpVerification';
 import EventData from '../../Screens/Home/Events/EventData';
 import EventList from '../../Screens/AddEvents/EventList';
+import CardPayment from '../../Screens/Home/Events/CardPayment';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +45,7 @@ function BottomTab() {
             tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
 
-                if (route.name === 'EventList') {
+                if (route.name === 'Events') {
                     iconName = focused
                         ? "musical-notes"
                         : 'musical-notes-outline';
@@ -65,7 +66,7 @@ function BottomTab() {
             }} name="Event" component={Event} /> */}
             <Tab.Screen options={{
                 headerShown: false
-            }} name="EventList" component={EventList} />
+            }} name="Events" component={EventList} />
 
 
 
@@ -84,15 +85,15 @@ function AppRouter() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-            {/* <Stack.Screen options={{
+                {/* <Stack.Screen options={{
                     headerShown: false
                 }} name="EventData" component={EventData} /> */}
                 {/* <Stack.Screen options={{
                     headerShown: false
-                }} name="addEvent" component={AddEvent} /> */}
-                     <Stack.Screen options={{
+                }} name="addEvent" component={AddEvent} />
+                <Stack.Screen options={{
                     headerShown: false
-                }} name="HomeScreen" component={BottomTab} />
+                }} name="HomeScreen" component={BottomTab} /> */}
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="login" component={LoginHome} />
@@ -108,9 +109,9 @@ function AppRouter() {
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="CreatedEvent" component={CreatedEvent} />
-                {/* <Stack.Screen options={{
+                <Stack.Screen options={{
                     headerShown: false
-                }} name="HomeScreen" component={BottomTab} /> */}
+                }} name="HomeScreen" component={BottomTab} />
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="payment" component={PaymentBalance} />
@@ -166,6 +167,9 @@ function AppRouter() {
                 <Stack.Screen options={{
                     headerShown: false
                 }} name="EventData" component={EventData} />
+                <Stack.Screen options={{
+                    headerShown: false
+                }} name="CardPayment" component={CardPayment} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -8,10 +8,12 @@ import { useNavigation } from '@react-navigation/native'
 function LoginHome({ navigation }) {
     // let navigate = useNavigation()
     return (
-        <ScrollView>
-            <ImageBackground source={require('../../Assests/backgrounimages.jpg')} style={styles.backgrounBox}>
-                <ScrollView>
-                    <View style={styles.MainBox}>
+        // <ScrollView style={{flex:1}}>
+        <ImageBackground source={require('../../Assests/backgrounimages.jpg')} style={styles.backgrounBox}>
+            <ScrollView style={{flex:1}}>
+                <View style={{justifyContent:'space-between'}}>
+
+                    <View style={[styles.MainBox,{flex:1}]}>
                         <View>
                             <Image source={require('../../Assests/mamologo.png')} />
                         </View>
@@ -19,7 +21,9 @@ function LoginHome({ navigation }) {
                             <Image source={require('../../Assests/Network.png')} />
                         </View>
                     </View>
-                    <View style={styles.inputFeild}>
+                    
+
+                    <View style={[styles.inputFeild,{alignSelf:'center',marginTop:'60%'}]}>
                         <Button onPress={() => navigation.navigate('acountcreate')} label='Login' color='#23B7C5' />
                         <OutlineButton onPress={() => { }} label='Create account' color='#E53799' />
                         <View style={styles.any}>
@@ -50,24 +54,27 @@ function LoginHome({ navigation }) {
 
                         </View>
                     </View>
-                </ScrollView>
-                <View style={styles.AndHeplmeSection}>
-                    <Text style={{ fontSize: 18, color: "white" }}>help me ?</Text>
+
+                    <View style={[styles.AndHeplmeSection,{flex:0.2,alignSelf:'center'}]}>
+                        <Text style={{ fontSize: 18, color: "white" }}>help me ?</Text>
+                    </View>
                 </View>
-            </ImageBackground >
-        </ScrollView>
+            </ScrollView>
+
+        </ImageBackground >
+        // </ScrollView>
     )
 }
 const styles = StyleSheet.create({
     backgrounBox: {
-        width: 360,
-        height: 812,
-
+        // width: 360,
+        // height: 812,
+        flex: 1
     },
     MainBox: {
         padding: 30,
         paddingTop: 35,
-        width: 360,
+        // width: 360,
         display: 'flex',
         justifyContent: 'space-between',
         // alignItems:'center',
@@ -75,7 +82,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     inputFeild: {
-        paddingTop: 240,
+        alignSelf: 'center'
     },
     any: {
         display: 'flex',

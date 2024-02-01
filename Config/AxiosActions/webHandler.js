@@ -55,11 +55,15 @@ export default class WebHandler {
 
         let bodyParam = null
 
+       
         if (type == 'google') {
             bodyParam = { "image": data.user.photo, "name": data.user.name, "google_key": data.user.id }
         }
         if (type == 'facebook') {
             bodyParam = { "image": data.image, "name": data.name, "facebook_key": data.facebookId }
+        }
+        if (type == 'apple') {
+            bodyParam = {  "name": data.name, "apple_key": data.userid,"image":'https://lh3.googleusercontent.com/a/ACg8ocJWOPbskPXSItuqEoX1EvAQXGRV8BMPKeaH1yCRXFP9=s96-c' }
         }
         if (type == 'normal') {
             bodyParam = { "email": data.email, "password": data.password }
@@ -78,6 +82,26 @@ export default class WebHandler {
                     prefs.createNewUserSession(resp.user, resp.token)
                 }
 
+                onSuccess(resp)
+            }, (error) => {
+                onFailure(error)
+            })
+    }
+    removeEvent(data, onSuccess, onFailure) {
+        let bodyParam ={ "eventId": data.eventId }
+       
+        this.sendDataObjectPostFormRequest(Urls.REMOVE_EVENT, bodyParam,
+            (resp) => {
+                onSuccess(resp)
+            }, (error) => {
+                onFailure(error)
+            })
+    }
+    songsLike(data, onSuccess, onFailure) {
+        let bodyParam ={ "userId": data.userId,"songId":data.songId,"eventId":data.eventId }
+ 
+        this.sendDataObjectPostFormRequest(Urls.SONG_LIKE, bodyParam,
+            (resp) => {
                 onSuccess(resp)
             }, (error) => {
                 onFailure(error)
@@ -122,7 +146,7 @@ export default class WebHandler {
         // console.log("songs list ====", stringifiedSongsList)
         // formData.append("songsList", JSON.stringify(stringifiedSongsList));
 
-        console.log("========  list of songs ====", data.songsList)
+        console.log("========  list of songs ====", data.location)
         data.songsList.forEach((obj, index) => {
             formData.append(`songsList[${index}][songName]`, obj.songName);
             formData.append(`songsList[${index}][songCover]`, obj.songCover);
@@ -134,13 +158,14 @@ export default class WebHandler {
         formData.append("descriptions", data.descriptions);
         // formData.append("songsList", data.songsList);
         formData.append("eventOrganizerId", data.eventOrganizerId);
+        formData.append("location", data.location);
 
         formData.append("image", {
             uri: data.imagePath.path,
             name: 'image.jpeg',
             type: data.imagePath.mime,
         });
-        this.sendPostRequest(Urls.ADD_EVENT, formData, onSuccess, onFailure)
+        this.sendMediaPostFormRequest(Urls.ADD_EVENT, formData, onSuccess, onFailure)
     }
     AccountVerifcation(data, onSuccess, onFailure) {
         let bodyParam = "&userId=" + data.userId + "&otp=" + data.otpCode
@@ -366,7 +391,7 @@ export default class WebHandler {
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log("RESPONSE==> " + JSON.stringify(responseJson))
-                if (responseJson.status == true) {
+                if (responseJson) {
                     onResponse(responseJson)
                 } else {
                     onError(responseJson.message)

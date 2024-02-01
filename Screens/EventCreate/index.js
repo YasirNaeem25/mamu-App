@@ -9,8 +9,6 @@ import MyDatePicker from './MyDatePicker'
 function EventCreate({ navigation, route }) {
     const [eventName, seteventName] = useState(null);
     const receivedData = route.params;
-    const [description]=route.params
-    console.log(route.params)
     const [eventname, seteventname] = useState(null)
     const [startDate, setstartDate] = useState(null)
     const [endDate, setendDate] = useState(null)
@@ -23,9 +21,9 @@ function EventCreate({ navigation, route }) {
     const endingDate=dateFormat(endDate).formattedDateTime
     return (
 
-        <ScrollView>
+        <ScrollView style={{flex:1}}>
             <Header label='Create New Event' />
-            <View style={{ backgroundColor: '#F5F5F5' }}>
+            <View style={{ backgroundColor: '#F5F5F5',flex:1 }}>
                 <MyDatePicker
                     showModal={showDatePicker}
                     onSelectDate={(date) => {
@@ -80,8 +78,8 @@ function EventCreate({ navigation, route }) {
                 </ScrollView>
             </View >
             <View style={{
-                width: 360, height: 90, backgroundColor: "white",
-                position: 'relative', bottom: 0,
+                width: 360, height: 90,marginTop:50,
+                position: 'relative', bottom: 0,alignSelf:'center'
             }}>
                 <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 3 }}>
                     <View style={{ width: 75, height: 2, backgroundColor: "#26C5D5" }}></View>
@@ -95,7 +93,7 @@ function EventCreate({ navigation, route }) {
                         startdate:dateFormat(startDate),
                         enddate:dateFormat(endDate),
                         eventName:eventname,
-                        location:description   
+                        location:receivedData[0]?.description?receivedData[0].description:'Königstraße 1B, 70173 Stuttgart, Germany'  
 
                     }) }} />
                 </View>
