@@ -4,19 +4,22 @@ import Button from '../../Component/AuthFeild/Button'
 import Header from '../../Component/Header'
 import Input from '../../Component/AuthFeild/Input'
 import ImagePicker from 'react-native-image-crop-picker';
+import Utils from '../../Component/Utils'
+
+const myUtils = new Utils()
 
 function EditDescriptionAndImage({ navigation, route }) {
 
-    const { startdate, enddate, eventName,location } = route.params;
+    const { startdate, enddate, eventName, location } = route.params;
     const [image, setImage] = useState(null)
     const [desc, setDesc] = useState(null)
-    const[imagepath,setimagepath]=useState()
+    const [imagepath, setimagepath] = useState(null)
     let imagee = { "uri": image }
     return (
-        <ScrollView style={{flex:1}}>
+        <ScrollView style={{ flex: 1 }}>
             <View style={{ height: 665, backgroundColor: '#F5F5F5' }}>
                 <Header label='Create New Event' />
-                <View style={{ padding: 24,alignSelf:'center' }}>
+                <View style={{ padding: 24, alignSelf: 'center' }}>
                     <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <View><Text style={{ fontSize: 20, color: "black" }}>Event Cover</Text></View>
                         <TouchableOpacity style={{
@@ -50,7 +53,7 @@ function EditDescriptionAndImage({ navigation, route }) {
                 </View>
             </View >
             <View style={{
-                width: 360, height: 90,alignSelf:'center' ,marginTop:10,
+                width: 360, height: 90, alignSelf: 'center', marginTop: 10,
                 position: 'relative', bottom: 0,
             }}>
                 <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 3 }}>
@@ -61,7 +64,12 @@ function EditDescriptionAndImage({ navigation, route }) {
                 </View>
                 <View style={{ paddingTop: 24 }}>
                     <Button color='#26C5D5' label='next' onPress={() => {
-                        navigation.navigate('playlist',
+
+                        if (!imagepath && !desc) {
+                            myUtils.showSnackbar("Error", "Please fill complete Data", "danger")
+                        }
+                        else{
+                            navigation.navigate('playlist',
                             {
 
                                 startdate: startdate,
@@ -69,12 +77,16 @@ function EditDescriptionAndImage({ navigation, route }) {
                                 eventName: eventName,
                                 eventimage: imagee,
                                 eventDesc: desc,
-                                imagePath:imagepath,
-                                location:location
+                                imagePath: imagepath,
+                                location: location
 
-                            }
+                            })
 
-                        )
+                        }
+
+                       
+
+                        
                     }} />
                 </View>
             </View>
@@ -112,11 +124,11 @@ function EditDescriptionAndImage({ navigation, route }) {
                             // width: 312,
                             // height: 312,
                             // includeExif: true,
-                            
+
                         }).then(image => {
-                            console.log("image ====>>>",image)
+                            console.log("image ====>>>", image)
                             let img = { uri: image.path, width: image.width, height: image.height }
-                           
+
                             setImage(img.uri)
                             setimagepath(image)
                         }).catch(e => alert(e.message));

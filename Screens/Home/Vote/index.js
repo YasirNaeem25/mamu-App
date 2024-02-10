@@ -5,6 +5,9 @@ import SearchInput from '../../../Component/AuthFeild/SearchInput';
 import Prefmanager from '../../../Config/AxiosActions/prefManager';
 import WebHandler from '../../../Config/AxiosActions/webHandler';
 import { SafeAreaView } from 'react-native';
+import Utils from '../../../Component/Utils';
+
+const myUtils=new Utils()
 
 const webHandler = new WebHandler()
 const pref = new Prefmanager()
@@ -206,6 +209,7 @@ function Vote({ navigation, route }) {
 
             navigation.goBack()
         }, (error) => {
+            myUtils.showSnackbar("Error",error, "danger")
 
         })
     }

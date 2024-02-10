@@ -7,16 +7,18 @@ import SearchInput from '../../Component/AuthFeild/SearchInput'
 import WebHandler from '../../Config/AxiosActions/webHandler'
 import ApiRoute from '../../Config/Routes/ApiRoute'
 import Menupopup from '../ReuseAbleComponent/MenuPop'
+import Utils from '../../Component/Utils'
 
 const imageRoute = 'https://mamu-app-2e1cbc92673a.herokuapp.com/songs/'
 
+const myUtils = new Utils()
 const webHandler = new WebHandler()
 
 function AddTopPlayList({ navigation, route }) {
 
-    const { startdate, enddate, eventName, eventimage, eventDesc,imagePath,location } = route.params;
+    const { startdate, enddate, eventName, eventimage, eventDesc, imagePath, location } = route.params;
 
-    console.log("start date ====",startdate)
+    console.log("start date ====", startdate)
     const [openSearch, setOpenSearch] = useState(false)
     const [Selected, setSelected] = useState(false)
     const [defaultrender, setDefaultrender] = useState(true)
@@ -56,8 +58,8 @@ function AddTopPlayList({ navigation, route }) {
 
     }, [])
     return (
-        <View>
-            <View style={{  backgroundColor: '#F5F5F5' }}>
+        <ScrollView>
+            <View style={{ backgroundColor: '#F5F5F5' }}>
                 <Header label='Create New Event' />
                 {openSearch ?
 
@@ -108,8 +110,8 @@ function AddTopPlayList({ navigation, route }) {
 
             </View >
             <View style={{
-                 height: 90,
-                position: 'relative', bottom: 0,alignSelf:'center',marginTop:20
+                height: 90,
+                position: 'relative', bottom: 0, alignSelf: 'center', marginTop: 20
             }}>
                 <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 3 }}>
                     <View style={{ width: 75, height: 2, backgroundColor: "#CCCCCC" }}></View>
@@ -119,30 +121,40 @@ function AddTopPlayList({ navigation, route }) {
                 </View>
                 <View style={{ paddingTop: 24 }}>
                     <Button color='#26C5D5' label='next' onPress={() => {
-                        navigation.navigate('CreatedEvent', {
+
+                        if (songsList?.length==0) {
+                            myUtils.showSnackbar("Error", "Please Select song", "danger")
+                        }
+                        else {
+                            navigation.navigate('CreatedEvent', {
 
 
-                            startdate: startdate,
-                            enddate: enddate,
-                            eventName: eventName,
-                            eventimage: eventimage,
-                            eventDesc: eventDesc,
-                            songsList: addToList,
-                            songsData:songsList,
-                            imagePath:imagePath,
-                            location:location
+                                startdate: startdate,
+                                enddate: enddate,
+                                eventName: eventName,
+                                eventimage: eventimage,
+                                eventDesc: eventDesc,
+                                songsList: addToList,
+                                songsData: songsList,
+                                imagePath: imagePath,
+                                location: location
 
-                        })
+                            })
+
+                        }
+
+
+
                     }} />
                 </View>
             </View>
-        </View >
+        </ScrollView >
     )
 
     function handleAddToPlayList(data) {
-        let songData={
-            songName:data.songName,
-            songCover:data.songPhoto
+        let songData = {
+            songName: data.songName,
+            songCover: data.songPhoto
         }
         addToList.push(data)
         songsList.push(songData)

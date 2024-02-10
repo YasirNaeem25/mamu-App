@@ -7,13 +7,14 @@ import WebHandler from '../../Config/AxiosActions/webHandler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Utils from '../../Component/Utils'
 
-const myUtils=new Utils()
+const myUtils = new Utils()
 const webHandler = new WebHandler()
 function CreateAcount({ route, navigation }) {
     const { userType } = route.params;
     const [userEmail, setuserEmail] = useState(null)
     const [userName, setuserName] = useState(null)
     const [password, setpassword] = useState(null)
+    const [loading, setloading] = useState(false)
     return (
         <SafeAreaView>
             <ScrollView>
@@ -23,7 +24,7 @@ function CreateAcount({ route, navigation }) {
                         paddingLeft: 24,
                         paddingRight: 24
                     }}>
-                        <Text style={[style.Heading,{alignSelf:'center'}]}>Let’s create your account!</Text>
+                        <Text style={[style.Heading, { alignSelf: 'center' }]}>Let’s create your account!</Text>
                         <View style={{ paddingTop: 20 }}>
                             <Input value={userEmail} label='Email' onChange={(text) => { setuserEmail(text) }} validationtext='Verification email will be sent on this address.' />
 
@@ -36,9 +37,13 @@ function CreateAcount({ route, navigation }) {
                             <Input value={password} label='Password' onChange={(text) => { setpassword(text) }} validationtext="Password must be 8+ characters long." />
                         </View>
                     </View>
-                    <View style={{ paddingTop: 20,alignSelf:'center' }}>
-                        <Button onPress={() => RegisterUser()} label='Continue' color='#23B7C5' />
+                    <View style={{ paddingTop: 20, alignSelf: 'center' }}>
+                        <View style={{flex:0.3}}>
+                            {!loading && <Button onPress={() => RegisterUser()} label='Continue' color='#23B7C5' />}
+                            {loading && myUtils.renderLoadingstate()}
+                        </View>
                         <View style={{ paddingTop: 26, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+
                             <Text style={{ fontSize: 13, color: '#666', }}>Already have an account?</Text>
                             <Text> <TouchableOpacity onPress={() => {
                                 navigation.navigate('loginAcount')
@@ -48,7 +53,7 @@ function CreateAcount({ route, navigation }) {
                             ><Text style={{ color: "black", }}>login</Text></TouchableOpacity></Text>
                         </View>
                     </View>
-                    <View style={{alignSelf:'center', width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ alignSelf: 'center', width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Text>Help Me ?</Text>
                     </View>
                 </View>
@@ -56,8 +61,10 @@ function CreateAcount({ route, navigation }) {
         </SafeAreaView>
     )
     function RegisterUser() {
+        setloading(true)
         if (!userEmail || !userName || !password) {
-            myUtils.showSnackbar("Error","Please fill complete data","none")
+            myUtils.showSnackbar("Error", "Please fill complete data", "none")
+            setloading(false)
         }
         else {
             let userData = {
@@ -68,12 +75,16 @@ function CreateAcount({ route, navigation }) {
 
             }
             webHandler.registerUserAccount(userData, (resp) => {
+                setloading(false)
                 if (resp) {
                     navigation.navigate('OtpVerification', {
-                        userId: resp.user_data._id,email:null
+                        userId: resp.user_data._id, email: null
                     })
+                    myUtils.showSnackbar("Success", "User register", "success")
                 }
             }, (error) => {
+                myUtils.showSnackbar("Error", error, "none") 
+                setloading(false)
 
             })
         }

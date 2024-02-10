@@ -2,6 +2,8 @@ import Urls from '../Routes/ApiRoute';
 import axios from 'axios';
 // import CryptoJS from "crypto-js"
 import Prefmanager from './prefManager';
+import utils from '../../Component/Utils'
+const myUtils = new utils()
 
 
 const API_KEY = "3ec00dddc00e1dec3115457b0e317c9fb1c34db2";
@@ -15,15 +17,29 @@ export default class WebHandler {
         navigation = nav
     }
     registerUserAccount(data, onSuccess, onFailure) {
-
-        let bodyParam = "&user_name=" + data.userName + "&name=" + data.userName +
-            "&email=" + data.email + "&password=" + data.password +
-            "&role=" + data.type
-
-        this.sendDataPostFormRequest(Urls.USER_SIGNUP, bodyParam,
+        let bodyParam = {
+            "user_name": data.userName, "email": data.email, "password": data.password, "role": data.type, "name": data.userName
+        }
+        this.sendDataObjectPostFormRequest(Urls.USER_SIGNUP, bodyParam,
             (resp) => {
                 onSuccess(resp)
             }, (error) => {
+                onFailure(error)
+            })
+    }
+    changeusername(data, onSuccess, onFailure) {
+
+        let bodyParam = { "user_name": data.userName, "userId": data.userid }
+
+
+        this.sendDataObjectPostFormRequest(Urls.CHANGE_USER_INFO, bodyParam,
+            (resp) => {
+                onSuccess(resp)
+
+
+                // myUtils.showSnackbar("Success",resp.message,"success")
+            }, (error) => {
+
                 onFailure(error)
             })
     }
@@ -50,12 +66,13 @@ export default class WebHandler {
             }, (error) => {
                 onFailure(error)
             })
+
     }
     UserAccountLogin(data, type, onSuccess, onFailure) {
 
         let bodyParam = null
 
-       
+
         if (type == 'google') {
             bodyParam = { "image": data.user.photo, "name": data.user.name, "google_key": data.user.id }
         }
@@ -63,7 +80,7 @@ export default class WebHandler {
             bodyParam = { "image": data.image, "name": data.name, "facebook_key": data.facebookId }
         }
         if (type == 'apple') {
-            bodyParam = {  "name": data.name, "apple_key": data.userid,"image":'https://lh3.googleusercontent.com/a/ACg8ocJWOPbskPXSItuqEoX1EvAQXGRV8BMPKeaH1yCRXFP9=s96-c' }
+            bodyParam = { "name": data.name, "apple_key": data.userid, "image": 'https://lh3.googleusercontent.com/a/ACg8ocJWOPbskPXSItuqEoX1EvAQXGRV8BMPKeaH1yCRXFP9=s96-c' }
         }
         if (type == 'normal') {
             bodyParam = { "email": data.email, "password": data.password }
@@ -84,12 +101,15 @@ export default class WebHandler {
 
                 onSuccess(resp)
             }, (error) => {
+
+                console.log("eror ====", error)
+
                 onFailure(error)
             })
     }
     removeEvent(data, onSuccess, onFailure) {
-        let bodyParam ={ "eventId": data.eventId }
-       
+        let bodyParam = { "eventId": data.eventId }
+
         this.sendDataObjectPostFormRequest(Urls.REMOVE_EVENT, bodyParam,
             (resp) => {
                 onSuccess(resp)
@@ -98,8 +118,8 @@ export default class WebHandler {
             })
     }
     songsLike(data, onSuccess, onFailure) {
-        let bodyParam ={ "userId": data.userId,"songId":data.songId,"eventId":data.eventId }
- 
+        let bodyParam = { "userId": data.userId, "songId": data.songId, "eventId": data.eventId }
+
         this.sendDataObjectPostFormRequest(Urls.SONG_LIKE, bodyParam,
             (resp) => {
                 onSuccess(resp)
@@ -107,38 +127,6 @@ export default class WebHandler {
                 onFailure(error)
             })
     }
-    formDataToJson = (formData) => {
-        const jsonObject = {};
-        console.log("formData ===", formData)
-        for (const [key, value] of formData.entries()) {
-            jsonObject[key] = value;
-        }
-
-        return jsonObject;
-    };
-    convertFormDataToJson = (formData) => {
-
-        console.log("FUnction ----", formData._parts)
-
-        const jsonObject = {};
-
-        formData._parts.forEach((value, key) => {
-            // Check if the value is a File object (for handling file input)
-            if (value instanceof File) {
-                jsonObject[key] = {
-                    uri: value.uri,
-                    name: value.name,
-                    type: value.type,
-                };
-            } else {
-                // For non-file fields, simply use the value
-                jsonObject[key] = value;
-            }
-        });
-
-        return jsonObject;
-    };
-
     createEvent = async (data, onSuccess, onFailure) => {
         const formData = new FormData();
 
@@ -169,8 +157,6 @@ export default class WebHandler {
     }
     AccountVerifcation(data, onSuccess, onFailure) {
         let bodyParam = "&userId=" + data.userId + "&otp=" + data.otpCode
-
-
         this.sendDataPostFormRequest(Urls.OTP_VERIFICATION, bodyParam,
             (resp) => {
                 onSuccess(resp)
@@ -222,53 +208,28 @@ export default class WebHandler {
 
 
     sendDataPostFormRequest(url, _body, onResponse, onError) {
-        var dt = Date.now().toString()
-        var data = dt + url
-        // var key = CryptoJS.HmacSHA1(data, API_KEY).toString()
-
         console.log("=====================WEB REQUEST========================")
         console.log("URL==> " + url)
         console.log("PARAMS==> " + _body)
-        var headers2 = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            // 'dateTime': dt,
-            // 'url': url,
-            // 'key': key
-        }
-        console.log("Header==> ", headers2)
-
         axios.post(url, _body, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                // 'dateTime': dt,
-                // 'url': url,
-                // 'key': key
             }
 
         }).then(response => {
             // console.log("RESPONSE==> " + JSON.stringify(response))
             var responseJson = response.data
-            console.log("RESPONSE==> 1" + JSON.stringify(responseJson))
+            console.log("RESPONSE==> 1" + JSON.stringify(responseJson), response)
             if (responseJson != undefined && responseJson != null) {
                 if (responseJson) {
                     onResponse(responseJson)
-                }
-                else if (responseJson.message == "Logged out") {
-                    if (navigation) {
-                        // prefs.destroyUserSession()
-                        // navigation.navigate("Auth")
-                    }
-                    onError("You are logged out!")
-                }
-                else {
-                    onError(responseJson.message)
                 }
             } else {
                 onError("Unknown response from server")
             }
         }).catch((error) => {
-            console.log(JSON.stringify(error))
-            onError(error.message)
+            // console.log(JSON.stringify(error))
+            // onError(error.message)
 
             //ONLY FOR DEBUG//
             fetch(url, {
@@ -283,7 +244,9 @@ export default class WebHandler {
             })
                 .then((response) => response.text())
                 .then((responseJson) => {
-                    console.log("RESPONSE==> 2" + JSON.stringify(responseJson))
+                    console.log("RESPONSE==> 2" + responseJson)
+                    var jsonObject = JSON.parse(responseJson);
+                    onError(jsonObject.message);
                 }).catch((error) => {
                     console.log("RESPONSE==>3 " + JSON.stringify(error))
                 });
@@ -307,22 +270,12 @@ export default class WebHandler {
                 if (responseJson) {
                     onResponse(responseJson)
                 }
-                else if (responseJson.message == "Logged out") {
-                    if (navigation) {
-                        // prefs.destroyUserSession()
-                        // navigation.navigate("Auth")
-                    }
-                    onError("You are logged out!")
-                }
-                else {
-                    onError(responseJson.message)
-                }
             } else {
                 onError("Unknown response from server")
             }
         }).catch((error) => {
-            console.log(JSON.stringify(error))
-            onError(error.message)
+            // console.log(JSON.stringify(error))
+            // onError(error.message)
 
             //ONLY FOR DEBUG//
             fetch(url, {
@@ -337,7 +290,10 @@ export default class WebHandler {
             })
                 .then((response) => response.text())
                 .then((responseJson) => {
-                    console.log("RESPONSE==> 2" + JSON.stringify(responseJson))
+                    console.log("RESPONSE==> 2" + responseJson)
+                    var jsonObject = JSON.parse(responseJson);
+                    onError(jsonObject?.error?jsonObject.error:jsonObject.message);
+          
                 }).catch((error) => {
                     console.log("RESPONSE==>3 " + JSON.stringify(error))
                 });
@@ -361,15 +317,18 @@ export default class WebHandler {
                 onError("Unknown response from server")
             }
         }).catch((error) => {
-            console.log(JSON.stringify(error))
-            onError(error.message)
+            // console.log(JSON.stringify(error))
+            // onError(error.message)
             //ONLY FOR DEBUG//
             fetch(url, {
                 method: 'GET',
             })
                 .then((response) => response.text())
                 .then((responseJson) => {
-                    console.log("RESPONSE==> 2" + JSON.stringify(responseJson))
+                    console.log("RESPONSE==> 2" + responseJson)
+                    var jsonObject = JSON.parse(responseJson);
+                    onError(jsonObject.message);
+                   
                 }).catch((error) => {
                     console.log("RESPONSE==>3 " + JSON.stringify(error))
                 });

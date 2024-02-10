@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
 
 import Prefmanager from '../../../Config/AxiosActions/prefManager'
+import { useFocusEffect } from '@react-navigation/native'
 const pref = new Prefmanager()
 function Profile({ navigation }) {
 
@@ -14,10 +15,21 @@ function Profile({ navigation }) {
 
 
     }, [])
+    useFocusEffect(
+        useCallback(() => {
+            pref.getUserSessionData(data => {
+                setuserData(data)
+                console.log("====== userData", data)
+            })
+            return () => {
+                // this will call exit from screen
+            };
+        }, [])
+    )
 
     return (
         <ScrollView style={{ flex: 1 }}>
-            <View style={{ paddingBottom: 10, backgroundColor: "#F5F5F5",alignSelf:'center' }}>
+            <View style={{ paddingBottom: 10, backgroundColor: "#F5F5F5", alignSelf: 'center' }}>
                 <View style={{ paddingTop: 76, display: 'flex', justifyContent: "center", alignItems: 'center' }}>
                     {/* <View style={{ width: 112, height: 112, backgroundColor: "#FABABA", padding: 10, borderRadius: 56, display: 'flex', justifyContent: 'flex-end', alignItems: "center" }}> */}
                     <TouchableOpacity >
@@ -31,7 +43,7 @@ function Profile({ navigation }) {
                     {/* </View> */}
                     {userData && <Text style={{ fontSize: 20, paddingTop: 5 }}>{userData.userName}</Text>}
                 </View>
-                <View style={{ paddingLeft: 16, paddingRight: 16,  }}>
+                <View style={{ paddingLeft: 16, paddingRight: 16, }}>
                     <Text style={{ paddingTop: 24, color: '#666666', fontSize: 14, paddingBottom: 5 }}>Account</Text>
                     <View style={{
                         width: 328, height: 104, borderRadius: 8, backgroundColor: '#FFFFFF',
@@ -51,7 +63,7 @@ function Profile({ navigation }) {
                         }}>
                             <View><Text style={{ color: '#666666', fontSize: 14 }}>Username</Text></View>
                             <View>
-                                <TouchableOpacity onPress={() => { navigation.navigate('EditUserNames') }}>
+                                <TouchableOpacity onPress={() => { navigation.navigate('EditUserNames', { username: userData.userName, userid: userData.userId }) }}>
                                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                                         <View>
                                             {userData && <Text style={{ fontSize: 14, color: '#666666' }}>{userData.userName}</Text>}
@@ -73,7 +85,9 @@ function Profile({ navigation }) {
                         }}>
                             <View><Text style={{ color: '#666666', fontSize: 14 }}>Email</Text></View>
                             <View>
-                                <TouchableOpacity onPress={() => { navigation.navigate('EditEmailAdress') }}>
+                                <TouchableOpacity onPress={() => {
+                                    // navigation.navigate('EditEmailAdress') 
+                                }}>
                                     <View style={{ display: 'flex', alignItems: 'center', flexDirection: 'row', gap: 8 }}>
                                         <View>
                                             {userData && <Text style={{ fontSize: 14, color: '#666666' }}>{userData.email}</Text>}
@@ -93,7 +107,7 @@ function Profile({ navigation }) {
                         }}>
                             <View><Text style={{ color: '#666666', fontSize: 14 }}>Password</Text></View>
                             <View>
-                                <TouchableOpacity onPress={() => { navigation.navigate('EditPassword') }} >
+                                <TouchableOpacity onPress={() => { navigation.navigate('EditPassword', {userid: userData.userId }) }} >
                                     <Image source={require('../../../Assests/ArrowForwardIosFilled.png')} />
                                 </TouchableOpacity>
                             </View>

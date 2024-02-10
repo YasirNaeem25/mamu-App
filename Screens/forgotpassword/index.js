@@ -5,10 +5,13 @@ import Header from '../../Component/Header'
 import Button from '../../Component/AuthFeild/Button'
 import Input from '../../Component/AuthFeild/Input'
 import webHandler from '../../Config/AxiosActions/webHandler'
+import Utils from '../../Component/Utils'
 const Handler=new webHandler()
+const myUtils=new Utils()
 
 export default function ForgetPassword({ navigation }) {
     const[email,setemail]=useState(null)
+    const [loading,setloading]=useState(false)
     return (
         <ScrollView>
             <View style={{ backgroundColor: "white", height: 812 }}>
@@ -20,8 +23,10 @@ export default function ForgetPassword({ navigation }) {
                    
                     </View>
                 </View>
-                <View style={{ paddingTop: 20 }}>
-                    <Button label='Reset my password' color='#23B7C5' onPress={() => { Verify() }} />
+                <View style={{ paddingTop: 20 ,alignSelf:'center',flex:0.2}}>
+                   { !loading &&<Button label='Reset my password' color='#23B7C5' onPress={() => { Verify() }} />}
+
+                    {loading && myUtils.renderLoadingstate()}
                 </View>
                 <View style={{ width: 375, backgroundColor: 'white', height: 50, position: 'absolute', bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Text>Help Me ?</Text>
@@ -31,9 +36,10 @@ export default function ForgetPassword({ navigation }) {
     )
 
     function Verify(){
+        setloading(true)
         if (!email) {
-            // Show Snackbar if any field is null
-         
+            setloading(false)
+            myUtils.showSnackbar("Error", "Email is not empty", 'danger')
         }
         else{
             let userData = {
@@ -41,10 +47,15 @@ export default function ForgetPassword({ navigation }) {
             
             }
             Handler.forgetPassword(userData, (resp) => {
-              
+        
+                myUtils.showSnackbar("Success", resp.message, 'success')
                 navigation.navigate('OtpVerification',{email:email})
+               
+                setloading(false)
               
             }, (error) => {
+                myUtils.showSnackbar("Error", error, 'danger')
+                setloading(false)
                
             })
 

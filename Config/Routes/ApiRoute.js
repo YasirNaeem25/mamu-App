@@ -7,6 +7,7 @@ export default{
     FORGET_PASSWORD:SERVER+"user/forgot-password",
     VERIFY_FORGET_PASSWORD_OTP:SERVER+"user/verify-forgot-password-otp",
     GET_USER_INFO:SERVER+"user",
+    CHANGE_USER_INFO:SERVER+"user/update",
 
     //Event API
     ADD_EVENT:SERVER+"addEvent",

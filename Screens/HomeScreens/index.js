@@ -24,8 +24,8 @@ function LoginHome({ navigation }) {
                     
 
                     <View style={[styles.inputFeild,{alignSelf:'center',marginTop:'60%'}]}>
-                        <Button onPress={() => navigation.navigate('acountcreate')} label='Login' color='#23B7C5' />
-                        <OutlineButton onPress={() => { }} label='Create account' color='#E53799' />
+                        <Button onPress={() => navigation.navigate('optionAcount')} label='Login' color='#23B7C5' />
+                        <OutlineButton onPress={() => { navigation.navigate('optionAcount') }} label='Create account' color='#E53799' />
                         <View style={styles.any}>
                             <View style={{
                                 width: 140,
@@ -47,9 +47,9 @@ function LoginHome({ navigation }) {
 
                         </View>
                         <View style={styles.socialButton}>
-                            <SocialButton onPress={() => { }} label='Continue with Facebook' SocialIcon='Facebook' />
-                            <SocialButton onPress={() => { }} label='Continue with Google' SocialIcon='Google' />
-                            <SocialButton onPress={() => { }} label='Continue with apple' SocialIcon='Apple' />
+                            <SocialButton onPress={() => {navigation.navigate('optionAcount') }} label='Continue with Facebook' SocialIcon='Facebook' />
+                            <SocialButton onPress={() => { navigation.navigate('optionAcount')}} label='Continue with Google' SocialIcon='Google' />
+                            <SocialButton onPress={() => {navigation.navigate('optionAcount') }} label='Continue with apple' SocialIcon='Apple' />
 
 
                         </View>

@@ -4,8 +4,9 @@ import Header from '../../Component/Header'
 import Input from '../../Component/AuthFeild/Input'
 import Button from '../../Component/AuthFeild/Button'
 import MyDatePicker from './MyDatePicker'
+import Utils from '../../Component/Utils'
 
-
+const myUtils = new Utils()
 function EventCreate({ navigation, route }) {
     const [eventName, seteventName] = useState(null);
     const receivedData = route.params;
@@ -17,13 +18,13 @@ function EventCreate({ navigation, route }) {
     const [showEnddatePicker, setshowEnddatePicker] = useState(false)
 
 
-    const strtDate=dateFormat(startDate).formattedDateTime
-    const endingDate=dateFormat(endDate).formattedDateTime
+    const strtDate = dateFormat(startDate).formattedDateTime
+    const endingDate = dateFormat(endDate).formattedDateTime
     return (
 
-        <ScrollView style={{flex:1}}>
+        <ScrollView style={{ flex: 1 }}>
             <Header label='Create New Event' />
-            <View style={{ backgroundColor: '#F5F5F5',flex:1 }}>
+            <View style={{ backgroundColor: '#F5F5F5', flex: 1 }}>
                 <MyDatePicker
                     showModal={showDatePicker}
                     onSelectDate={(date) => {
@@ -45,9 +46,9 @@ function EventCreate({ navigation, route }) {
                             <Input value={eventname} label='Event Name' onChange={(text) => { seteventname(text) }} textFocuscolor='#F5F5F5' validationtext='Choose cool name for your event!' />
                         </View>
                         <TouchableOpacity activeOpacity={0.9} onPress={() => { setshowDatePicker(true) }} style={{ paddingTop: 20 }}>
-                            <Input editable={false} value={startDate ?JSON.stringify(strtDate) : "Select Date"} label='Start Date and Time' onChange={(text) => { setstartDate(text) }} textFocuscolor='#F5F5F5' validationtext='set when event will start' />
+                            <Input editable={false} value={startDate ? JSON.stringify(strtDate) : "Select Date"} label='Start Date and Time' onChange={(text) => { setstartDate(text) }} textFocuscolor='#F5F5F5' validationtext='set when event will start' />
                         </TouchableOpacity>
-                        {showEnddate && <TouchableOpacity  activeOpacity={0.9}  onPress={() => { setshowEnddatePicker(true) }} style={{ paddingTop: 20 }}>
+                        {showEnddate && <TouchableOpacity activeOpacity={0.9} onPress={() => { setshowEnddatePicker(true) }} style={{ paddingTop: 20 }}>
                             <Input editable={false} value={endDate ? JSON.stringify(endingDate) : "Select Date"} label='End Date and Time' onChange={(text) => { setendDate(text) }} textFocuscolor='#F5F5F5' validationtext='set when event will End' />
 
                         </TouchableOpacity>}
@@ -78,8 +79,8 @@ function EventCreate({ navigation, route }) {
                 </ScrollView>
             </View >
             <View style={{
-                width: 360, height: 90,marginTop:50,
-                position: 'relative', bottom: 0,alignSelf:'center'
+                width: 360, height: 90, marginTop: 50,
+                position: 'relative', bottom: 0, alignSelf: 'center'
             }}>
                 <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'row', gap: 3 }}>
                     <View style={{ width: 75, height: 2, backgroundColor: "#26C5D5" }}></View>
@@ -88,14 +89,23 @@ function EventCreate({ navigation, route }) {
                     <View style={{ width: 75, height: 2, backgroundColor: "#CCCCCC" }}></View>
                 </View>
                 <View style={{ paddingTop: 24 }}>
-                    <Button color='#26C5D5' label='next' onPress={() => 
-                    { navigation.navigate('EditDescription',{
-                        startdate:dateFormat(startDate),
-                        enddate:dateFormat(endDate),
-                        eventName:eventname,
-                        location:receivedData[0]?.description?receivedData[0].description:'Königstraße 1B, 70173 Stuttgart, Germany'  
+                    <Button color='#26C5D5' label='next' onPress={() => {
+                        if (!startDate && !endDate && !eventname) {
+                            myUtils.showSnackbar("Error","Please fill complete Data", "danger")
+                        }
+                        else {
+                            {
+                                navigation.navigate('EditDescription', {
+                                    startdate: dateFormat(startDate),
+                                    enddate: dateFormat(endDate),
+                                    eventName: eventname,
+                                    location: receivedData[0]?.description ? receivedData[0].description : 'Königstraße 1B, 70173 Stuttgart, Germany'
 
-                    }) }} />
+                                })
+                            }
+
+                        }
+                    }} />
                 </View>
             </View>
         </ScrollView >
@@ -109,7 +119,7 @@ function EventCreate({ navigation, route }) {
         // Format the date and time as "Day Name, YYYY-MM-DD HH:mm"
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: false, };
         const formattedDateTime = parsedDate.toLocaleString('en-US', options);
-        return {formattedDate,formattedDateTime}
+        return { formattedDate, formattedDateTime }
 
     }
 }

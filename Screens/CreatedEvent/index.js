@@ -14,6 +14,7 @@ const myutils = new Utils()
 const imageRoute = 'https://mamu-app-2e1cbc92673a.herokuapp.com/songs/'
 function CreatedEvent({ navigation, route }) {
     const [userData, setuserData] = useState()
+    const [loading, setloading] = useState(false)
     useEffect(() => {
 
         pref.getUserSessionData(data => {
@@ -112,8 +113,9 @@ function CreatedEvent({ navigation, route }) {
                     <View style={{ width: 75, height: 2, backgroundColor: "#CCCCCC" }}></View>
                     <View style={{ width: 75, height: 2, backgroundColor: "#26C5D5" }}></View>
                 </View>
-                <View style={{ top: -5 }}>
-                    <Button color='#26C5D5' label='Create event' onPress={() => { createEvent() }} />
+                <View style={{ flex: 0.25 }}>
+                    {!loading && <Button color='#26C5D5' label='Create event' onPress={() => { createEvent() }} />}
+                    {loading && myutils.renderLoadingstate()}
                 </View>
             </View>
         </ScrollView >
@@ -211,6 +213,7 @@ function CreatedEvent({ navigation, route }) {
     }
 
     function createEvent() {
+        setloading(true)
         let data = {
             eventName: eventName,
             start_date_time: startdate.formattedDate,
@@ -225,8 +228,10 @@ function CreatedEvent({ navigation, route }) {
         }
 
         webHandler.createEvent(data, async (resp) => {
-            console.log("======= Done ======", resp.message)
+          
             var link = await generateLink(resp.event._id)
+
+            myutils.showSnackbar("Success", resp.message, "success")
 
             navigation.navigate('EventData', {
                 eventName: eventName,
@@ -238,12 +243,10 @@ function CreatedEvent({ navigation, route }) {
 
 
             })
+            setloading(false)
         }, (error) => {
-            if (error == 'Request failed with status code 400') {
-                // myUtils.showSnackbar("Error", "User Not Verified", 'danger')
-
-            }
-            console.log(error)
+            setloading(false)
+            myutils.showSnackbar("Error", error, "danger")
         })
     }
 
