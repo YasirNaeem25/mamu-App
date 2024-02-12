@@ -106,6 +106,8 @@ export default class WebHandler {
 
                 onFailure(error)
             })
+
+
     }
     removeEvent(data, onSuccess, onFailure) {
         let bodyParam = { "eventId": data.eventId }
@@ -265,6 +267,8 @@ export default class WebHandler {
 
         }).then(response => {
             var responseJson = response.data
+
+            console.log("Response ====", response)
             console.log("RESPONSE==> 1" + JSON.stringify(responseJson))
             if (responseJson != undefined && responseJson != null) {
                 if (responseJson) {
@@ -274,10 +278,8 @@ export default class WebHandler {
                 onError("Unknown response from server")
             }
         }).catch((error) => {
-            // console.log(JSON.stringify(error))
-            // onError(error.message)
 
-            //ONLY FOR DEBUG//
+            console.log("Error ====", error)
             fetch(url, {
                 method: 'POST',
                 headers: new Headers({
@@ -292,13 +294,78 @@ export default class WebHandler {
                 .then((responseJson) => {
                     console.log("RESPONSE==> 2" + responseJson)
                     var jsonObject = JSON.parse(responseJson);
-                    onError(jsonObject?.error?jsonObject.error:jsonObject.message);
-          
+                    onError(jsonObject?.error ? jsonObject.error : jsonObject.message);
+
                 }).catch((error) => {
                     console.log("RESPONSE==>3 " + JSON.stringify(error))
                 });
         })
     }
+
+    // sendDataObjectPostFormRequest(url, _body, onResponse, onError) {
+    //     console.log("=====================WEB REQUEST========================")
+    //     console.log("URL==> " + url)
+    //     console.log("PARAMS==> " + JSON.stringify(_body))
+    //     // axios.post(url, _body, {
+    //     //     headers: {
+    //     //         'Content-Type': 'application/json',
+
+    //     //     }
+
+    //     // }).then(response => {
+    //     //     var responseJson = response.data
+
+    //     //     console.log("Response ====",response)
+    //     //     console.log("RESPONSE==> 1" + JSON.stringify(responseJson))
+    //     //     if (responseJson != undefined && responseJson != null) {
+    //     //         if (responseJson) {
+    //     //             onResponse(responseJson)
+    //     //         }
+    //     //     } else {
+    //     //         onError("Unknown response from server")
+    //     //     }
+    //     // }).catch((error) => {
+
+    //     //     console.log("Error ====",error)
+    //     fetch(url, {
+    //         method: 'POST',
+    //         headers: new Headers({
+    //             'Content-Type': 'application/x-www-form-urlencoded',
+    //             // 'Content-Type': 'application/json',
+           
+    //         }),
+    //         body: JSON.stringify(_body)
+    //     })
+    //         // .then((response) => response.text())
+    //         // .then((responseJson) => {
+    //         //     console.log("RESPONSE==> 2" + responseJson)
+    //         //     var jsonObject = JSON.parse(responseJson);
+    //         //     onError(jsonObject?.error ? jsonObject.error : jsonObject.message);
+
+    //         // })
+
+    //         .then(response => {
+    //             var responseJson = response.data
+
+    //             console.log("Response ====", response)
+    //             console.log("RESPONSE==> 1" + JSON.stringify(responseJson))
+    //             if (responseJson != undefined && responseJson != null) {
+    //                 if (responseJson) {
+    //                     onResponse(responseJson)
+    //                 }
+    //             } else {
+    //                 onError("Unknown response from server")
+    //             }
+    //         })
+
+
+    //         .catch((error) => {
+    //             console.log("RESPONSE==>3 " + JSON.stringify(error))
+    //         });
+
+    //     // })
+    // }
+
     sendDataGetFormRequest(url, _body, onResponse, onError) {
 
         console.log("=====================WEB REQUEST========================")
@@ -328,7 +395,7 @@ export default class WebHandler {
                     console.log("RESPONSE==> 2" + responseJson)
                     var jsonObject = JSON.parse(responseJson);
                     onError(jsonObject.message);
-                   
+
                 }).catch((error) => {
                     console.log("RESPONSE==>3 " + JSON.stringify(error))
                 });
